@@ -1,17 +1,33 @@
 /* Shared, minimal styles for the site */
 :root {
+  /* Light mode defaults */
   --bg: #f7f7f8;
-  --fg: #222;
-  --muted: #555;
+  --fg: #1b1b1d;
+  --muted: #444;
   --accent: #0b66d6;
   --accent-hover: #0a53ad;
   --card: #ffffff;
   --border: #e6e6e9;
+  /* Override Obsidian text color for light mode for readability */
+  --text-soft: #222;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b0b0e;
+    --fg: #d0d0d0;
+    --muted: #b9b9b9;
+    --accent: var(--cyber-purple);
+    --accent-hover: #7d46a0;
+    --card: #121218;
+    --border: #2a2a33;
+    --text-soft: #d0d0d0;
+  }
 }
 
 html, body { height: 100%; }
 body {
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: 'Share Tech Mono', monospace, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji";
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
@@ -63,19 +79,7 @@ input[type="range"], input[type="number"], select { padding: 4px; }
 
 canvas, svg { width: 100%; max-width: 900px; height: auto; background: #fff; border: 1px solid var(--border); border-radius: 6px; }
 
+@import url('obsidian.css');
 .note { background: #fff7d6; border: 1px solid #f1e2a1; color: #5a4a00; padding: 0.75rem 1rem; border-radius: 8px; }
 
 footer { margin-top: 2rem; color: #777; font-size: 0.9rem; }
-
-/* Obsidian-like theme adjustments (applied when body has .obsidian-theme) */
-body.obsidian-theme {
-  background: #0b0b0e;
-}
-body.obsidian-theme .card {
-  background: #121218;
-  border-color: #2a2a33;
-}
-body.obsidian-theme a,
-body.obsidian-theme .back { color: var(--cyber-blue, #5dade2); }
-body.obsidian-theme .button { background: var(--cyber-purple, #9b59b6); }
-body.obsidian-theme .button:hover { background: #7d46a0; }

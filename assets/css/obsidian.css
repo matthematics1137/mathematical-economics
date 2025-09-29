@@ -29,21 +29,26 @@ body,
 .markdown-source-view.mod-cm6 .cm-header-1 {
   color: var(--cyber-red-1);
 }
+/* Apply to plain HTML headings as well */
+h1 { color: var(--cyber-red-1); }
 
 .markdown-preview-view h2,
 .markdown-source-view.mod-cm6 .cm-header-2 {
   color: var(--cyber-red-2);
 }
+h2 { color: var(--cyber-red-2); }
 
 .markdown-preview-view h3,
 .markdown-source-view.mod-cm6 .cm-header-3 {
   color: var(--cyber-red-3);
 }
+h3 { color: var(--cyber-red-3); }
 
 .markdown-preview-view h4,
 .markdown-source-view.mod-cm6 .cm-header-4 {
   color: var(--cyber-red-4);
 }
+h4 { color: var(--cyber-red-4); }
 
 .markdown-preview-view h5,
 .markdown-source-view.mod-cm6 .cm-header-5,
@@ -51,6 +56,7 @@ body,
 .markdown-source-view.mod-cm6 .cm-header-6 {
   color: var(--cyber-purple);
 }
+h5, h6 { color: var(--cyber-purple); }
 
 /* === BOLD COLORS BY BULLET DEPTH (EDIT + PREVIEW) === */
 .markdown-preview-view ul > li > strong,
@@ -108,21 +114,25 @@ body,
 .markdown-source-view.mod-cm6 .HyperMD-list-line-1::marker {
   color: var(--cyber-purple);
 }
+ul > li::marker { color: var(--cyber-purple); }
 
 .markdown-preview-view ul ul > li::marker,
 .markdown-source-view.mod-cm6 .HyperMD-list-line-2::marker {
   color: var(--cyber-blue);
 }
+ul ul > li::marker { color: var(--cyber-blue); }
 
 .markdown-preview-view ul ul ul > li::marker,
 .markdown-source-view.mod-cm6 .HyperMD-list-line-3::marker {
   color: var(--cyber-green);
 }
+ul ul ul > li::marker { color: var(--cyber-green); }
 
 .markdown-preview-view ul ul ul ul > li::marker,
 .markdown-source-view.mod-cm6 .HyperMD-list-line-4::marker {
   color: var(--cyber-pink);
 }
+ul ul ul ul > li::marker { color: var(--cyber-pink); }
 
 /* === FILE TAB TITLE COLOR === */
 .workspace-leaf.mod-active .view-header .view-header-title,
@@ -143,4 +153,3 @@ body,
 .markdown-preview-view input[type='checkbox'] {
   accent-color: var(--cyber-red-2);
 }
-
