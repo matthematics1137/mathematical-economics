@@ -67,3 +67,15 @@ canvas, svg { width: 100%; max-width: 900px; height: auto; background: #fff; bor
 
 footer { margin-top: 2rem; color: #777; font-size: 0.9rem; }
 
+/* Obsidian-like theme adjustments (applied when body has .obsidian-theme) */
+body.obsidian-theme {
+  background: #0b0b0e;
+}
+body.obsidian-theme .card {
+  background: #121218;
+  border-color: #2a2a33;
+}
+body.obsidian-theme a,
+body.obsidian-theme .back { color: var(--cyber-blue, #5dade2); }
+body.obsidian-theme .button { background: var(--cyber-purple, #9b59b6); }
+body.obsidian-theme .button:hover { background: #7d46a0; }
