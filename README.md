@@ -5,7 +5,7 @@ Mathematical Economics — Interactive Notes and Simulations
 [![Last Commit](https://img.shields.io/github/last-commit/matthematics1137/mathematical-economics)](https://github.com/matthematics1137/mathematical-economics/commits/main)
 [![Repo Size](https://img.shields.io/github/repo-size/matthematics1137/mathematical-economics)](https://github.com/matthematics1137/mathematical-economics)
 
-Concise, dependency‑free study notes inspired by Kelvin (Kevin) Lancaster’s Mathematical Economics and adjacent texts. We are intentionally not rushing into simulations; the initial focus is clear structure and outlines we’ll expand together.
+Concise, dependency‑free study notes inspired by Kevin Lancaster’s Mathematical Economics and adjacent texts. We are intentionally not rushing into simulations; the initial focus is clear structure and outlines we’ll expand together.
 
 Highlights
 ----------
@@ -38,4 +38,4 @@ Planned enhancements and upcoming topics are tracked in `ROADMAP.md`.
 Acknowledgments
 ---------------
 - Influenced by the clean, dependency‑free structure used in the sibling `chaos/` repository.
-- Inspired by the pedagogy of Kelvin Lancaster and the broader mathematical‑economics literature.
+- Inspired by the pedagogy of Kevin Lancaster and the broader mathematical‑economics literature.
