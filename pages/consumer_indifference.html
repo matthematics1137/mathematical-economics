@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Consumer Theory — Indifference Curves</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+  <p><a class="back" href="../index.html">← Back to Introduction</a></p>
+  <h1>Indifference Curves</h1>
+  <div class="card">
+    <p>
+      Visualize preferences via indifference curves (e.g., Cobb–Douglas, perfect
+      substitutes, perfect complements). Adjust parameters to see how curvature
+      changes the marginal rate of substitution.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="controls">
+      <label>Utility form:
+        <select id="uform">
+          <option value="cd">Cobb–Douglas</option>
+          <option value="subs">Perfect substitutes</option>
+          <option value="comp">Perfect complements (Leontief)</option>
+        </select>
+      </label>
+      <label>a (CD exponent)
+        <input id="a" type="range" min="0.1" max="0.9" step="0.05" value="0.5" />
+      </label>
+      <label>Level (u)
+        <input id="ulevel" type="range" min="0.4" max="3.0" step="0.1" value="1.0" />
+      </label>
+    </div>
+    <canvas id="plot" width="900" height="560"></canvas>
+    <p class="note">
+      Coming soon: multiple indifference levels, MRS display, and bundles with
+      budget constraints.
+    </p>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('plot');
+    const ctx = canvas.getContext('2d');
+    const uform = document.getElementById('uform');
+    const aEl = document.getElementById('a');
+    const uLvl = document.getElementById('ulevel');
+
+    function clear() {
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.strokeStyle = '#e6e6e9';
+      for (let i=0;i<=9;i++) {
+        const x = 50 + i*80;
+        ctx.beginPath(); ctx.moveTo(x, 40); ctx.lineTo(x, 520); ctx.stroke();
+        const y = 520 - i*48;
+        ctx.beginPath(); ctx.moveTo(50, y); ctx.lineTo(850, y); ctx.stroke();
+      }
+      ctx.strokeStyle = '#000';
+      ctx.lineWidth = 2;
+      // axes
+      ctx.beginPath(); ctx.moveTo(50,520); ctx.lineTo(850,520); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(50,520); ctx.lineTo(50,40); ctx.stroke();
+    }
+
+    function toPix(x,y) {
+      const px = 50 + x*80; // x in [0,10]
+      const py = 520 - y*48; // y in [0,10]
+      return [px,py];
+    }
+
+    function drawCurve() {
+      clear();
+      const form = uform.value;
+      const a = parseFloat(aEl.value);
+      const u = parseFloat(uLvl.value);
+      ctx.strokeStyle = '#0b66d6';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+
+      if (form === 'cd') {
+        // Cobb–Douglas: u = x^a y^(1-a) ⇒ y = u^{1/(1-a)} x^{-a/(1-a)}
+        for (let x=0.3; x<=10; x+=0.02) {
+          const y = Math.pow(u, 1/(1-a)) * Math.pow(x, -a/(1-a));
+          if (y>0 && y<=10) {
+            const [px,py] = toPix(x,y);
+            if (x===0.3) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+          }
+        }
+      } else if (form === 'subs') {
+        // Perfect substitutes: u = ax + (1-a)y ⇒ line: y = (u - a x)/(1-a)
+        for (let x=0; x<=10; x+=0.02) {
+          const y = (u - a*x)/(1-a);
+          if (y>=0 && y<=10) {
+            const [px,py] = toPix(x,y);
+            if (x===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+          }
+        }
+      } else {
+        // Leontief: u = min(x/a, y/(1-a)) ⇒ L‑shape corner at (a u, (1-a) u)
+        const x0 = a*u, y0 = (1-a)*u;
+        const [px0,py0] = toPix(x0, y0);
+        ctx.moveTo(px0, 520);
+        ctx.lineTo(px0, py0);
+        ctx.lineTo(50, py0);
+      }
+
+      ctx.stroke();
+    }
+
+    uform.addEventListener('input', drawCurve);
+    aEl.addEventListener('input', drawCurve);
+    uLvl.addEventListener('input', drawCurve);
+    drawCurve();
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Production — Isoquants & Isocost</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+  <p><a class="back" href="../index.html">← Back to Introduction</a></p>
+  <h1>Isoquants and Isocost</h1>
+  <div class="card">
+    <p>
+      Explore production sets using a Cobb–Douglas technology <code>q = A K^\alpha L^{1-\alpha}</code>.
+      Adjust parameters to see isoquants and the tangency condition with an isocost line.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="controls">
+      <label>A <input id="A" type="range" min="0.5" max="2.0" step="0.1" value="1.0"></label>
+      <label>alpha <input id="alpha" type="range" min="0.1" max="0.9" step="0.05" value="0.6"></label>
+      <label>q <input id="q" type="range" min="1" max="10" step="0.5" value="4"></label>
+      <label>w <input id="w" type="range" min="0.5" max="5" step="0.1" value="1"></label>
+      <label>r <input id="r" type="range" min="0.5" max="5" step="0.1" value="1"></label>
+      <label>C <input id="C" type="range" min="5" max="100" step="1" value="30"></label>
+    </div>
+    <canvas id="plot" width="900" height="520"></canvas>
+    <p class="note">Coming soon: optimal (K,L) with MRTS = w/r, cost minimization path.</p>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('plot');
+    const ctx = canvas.getContext('2d');
+    const AEl = document.getElementById('A');
+    const aEl = document.getElementById('alpha');
+    const qEl = document.getElementById('q');
+    const wEl = document.getElementById('w');
+    const rEl = document.getElementById('r');
+    const CEl = document.getElementById('C');
+
+    function grid() {
+      ctx.fillStyle = '#fff'; ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.strokeStyle = '#e6e6e9';
+      for (let i=0;i<=9;i++) {
+        const x = 50 + i*80;
+        ctx.beginPath(); ctx.moveTo(x, 40); ctx.lineTo(x, 480); ctx.stroke();
+        const y = 480 - i*44;
+        ctx.beginPath(); ctx.moveTo(50, y); ctx.lineTo(850, y); ctx.stroke();
+      }
+      ctx.strokeStyle = '#000'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(50,480); ctx.lineTo(850,480); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(50,480); ctx.lineTo(50,40); ctx.stroke();
+    }
+
+    function toPix(K,L) { return [50 + K*80, 480 - L*44]; }
+
+    function draw() {
+      grid();
+      const A = parseFloat(AEl.value);
+      const alpha = parseFloat(aEl.value);
+      const q = parseFloat(qEl.value);
+      const w = parseFloat(wEl.value);
+      const r = parseFloat(rEl.value);
+      const C = parseFloat(CEl.value);
+
+      // Isoquant: q = A K^a L^(1-a) ⇒ L = (q/(A K^a))^{1/(1-a)}
+      ctx.strokeStyle = '#0b66d6'; ctx.lineWidth = 2.5; ctx.beginPath();
+      for (let K=0.2; K<=10; K+=0.02) {
+        const L = Math.pow(q/(A*Math.pow(K,alpha)), 1/(1-alpha));
+        if (isFinite(L) && L>0 && L<=10) {
+          const [px,py] = toPix(K,L);
+          if (K===0.2) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+        }
+      }
+      ctx.stroke();
+
+      // Isocost: C = wL + rK ⇒ L = (C - rK)/w
+      ctx.strokeStyle = '#999'; ctx.lineWidth = 2; ctx.beginPath();
+      for (let K=0; K<=10; K+=0.02) {
+        const L = (C - r*K)/w; if (L<0) break;
+        const [px,py] = toPix(K,L);
+        if (K===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+      }
+      ctx.stroke();
+    }
+
+    [AEl,aEl,qEl,wEl,rEl,CEl].forEach(el => el.addEventListener('input', draw));
+    draw();
+  </script>
+</body>
+</html>
+
