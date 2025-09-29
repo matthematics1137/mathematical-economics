@@ -15,6 +15,13 @@ Structure
 - `pages/` — Reserved for future outlines/notes.
 - `assets/css/style.css` — Shared styles. Keep inline styles to a minimum.
 
+Theme & color mode
+------------------
+- Global theme lives in `assets/css/style.css`, which imports `assets/css/obsidian.css`.
+- The site automatically adapts to the visitor’s light/dark preference via `@media (prefers-color-scheme: dark)`.
+- Usage on new pages: just link `assets/css/style.css` in the `<head>`; no extra classes or wrappers needed.
+- Typography: Share Tech Mono (via Google Fonts) is the base font for a consistent “Obsidian-like” look.
+
 Page guidelines (first three parts)
 ----------------------------------
 For Optimizing Theory, Static Economic Models, and Dynamic Economic Models, each topic page should follow this outline:
