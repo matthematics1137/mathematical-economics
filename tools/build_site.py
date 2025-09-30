@@ -27,6 +27,18 @@ def _is_abs_url(u: str) -> bool:
 
 def inline_html(s: str, rel_dir: pathlib.Path, src_root: pathlib.Path) -> str:
     s = html.escape(s)
+    # Protect math spans from other substitutions
+    math_tokens = []
+    def protect(pattern, text):
+        def _rep(m):
+            math_tokens.append(m.group(0))
+            return f"@@MATH{len(math_tokens)-1}@@"
+        return re.sub(pattern, _rep, text, flags=re.S)
+    # Order matters: handle $$ first, then $; then \[ \] and \( \)
+    s = protect(r"\$\$(.+?)\$\$", s)
+    s = protect(r"\$(.+?)\$", s)
+    s = protect(r"\\\[(.+?)\\\]", s)
+    s = protect(r"\\\((.+?)\\\)", s)
     # images ![alt](src)
     def _img_sub(m):
         alt = m.group(1); src = m.group(2)
@@ -51,6 +63,9 @@ def inline_html(s: str, rel_dir: pathlib.Path, src_root: pathlib.Path) -> str:
     # bold/italics
     s = re.sub(r'\*\*([^*]+)\*\*', r'<strong>\1</strong>', s)
     s = re.sub(r'(?<!\*)\*([^*]+)\*(?!\*)', r'<em>\1</em>', s)
+    # Restore math tokens
+    for i, tok in enumerate(math_tokens):
+        s = s.replace(f"@@MATH{i}@@", tok)
     return s
 
 def md_to_html(md: str, rel_dir: pathlib.Path, src_root: pathlib.Path) -> str:
