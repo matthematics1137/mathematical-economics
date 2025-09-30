@@ -88,5 +88,32 @@
     if (btn) btn.addEventListener('click', () => toggle());
     if (backdrop) backdrop.addEventListener('click', () => toggle(false));
     document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') toggle(false); });
+
+    // Theme toggle
+    const tbtn = document.getElementById('themeToggle');
+    const root = document.documentElement;
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light' || saved === 'dark') {
+      root.setAttribute('data-theme', saved);
+    }
+    function updateLabel(){
+      if (!tbtn) return;
+      const mode = root.getAttribute('data-theme') || 'auto';
+      tbtn.textContent = mode === 'dark' ? '☾' : (mode === 'light' ? '☀' : '◎');
+      tbtn.title = 'Toggle light/dark (current: ' + mode + ')';
+    }
+    updateLabel();
+    if (tbtn) tbtn.addEventListener('click', () => {
+      const current = root.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : (current === 'light' ? null : 'dark');
+      if (next) {
+        root.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+      } else {
+        root.removeAttribute('data-theme');
+        localStorage.removeItem('theme');
+      }
+      updateLabel();
+    });
   });
 })();

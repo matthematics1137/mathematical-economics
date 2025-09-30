@@ -111,6 +111,17 @@ body.nav-open .sidebar { transform: translateX(0); }
 .nav-open .hamburger { left: 272px; }
 .hamburger:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
 
+/* Theme toggle button (next to hamburger) */
+.theme-toggle {
+  position: fixed; top: 12px; left: 56px; z-index: 1001;
+  background: var(--card); color: var(--fg);
+  border: 1px solid var(--border); border-radius: 8px;
+  padding: 8px 10px; cursor: pointer; font-weight: 700;
+  box-shadow: 0 1px 6px rgba(0,0,0,.06);
+}
+.nav-open .theme-toggle { left: 316px; }
+.theme-toggle:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+
 /* Optional backdrop when open */
 .backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.25); z-index: 999; opacity: 0; pointer-events: none; transition: opacity .15s ease-in; }
 body.nav-open .backdrop { opacity: 1; pointer-events: auto; }
@@ -122,4 +133,26 @@ body.nav-open .backdrop { opacity: 1; pointer-events: auto; }
 
 @media (max-width: 900px) {
   .layout { grid-template-columns: 1fr; }
+}
+
+/* Explicit theme overrides via data-theme attribute (takes precedence over media query) */
+html[data-theme='light'] {
+  --bg: #f7f7f8;
+  --fg: #1b1b1d;
+  --muted: #444;
+  --accent: #0b66d6;
+  --accent-hover: #0a53ad;
+  --card: #ffffff;
+  --border: #e6e6e9;
+  --text-soft: #222;
+}
+html[data-theme='dark'] {
+  --bg: #0b0b0e;
+  --fg: #d0d0d0;
+  --muted: #b9b9b9;
+  --accent: var(--cyber-purple);
+  --accent-hover: #7d46a0;
+  --card: #121218;
+  --border: #2a2a33;
+  --text-soft: #d0d0d0;
 }
