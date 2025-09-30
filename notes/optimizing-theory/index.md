@@ -42,5 +42,4 @@
 		- **global** - true for all $x \in k$ 
 	- a stronger condition $>$ would imply both global (true for all) and that it is unique
 
-<!-- Demo placeholder: Cobb–Douglas optimum under a budget line -->
-<div data-widget="opt-curve" data-a="0.5" data-m="100" data-px="1" data-py="1"></div>
+<!-- Visualization placeholder removed for now; will add later. -->

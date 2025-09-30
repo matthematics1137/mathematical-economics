@@ -38,9 +38,7 @@
   // Ordered navigation per section
   const NAV = {
     'optimizing-theory': [
-      // absolute path is converted later to root-relative
-      '/pages/optimizing-theory/index.html',
-      // add more pages here as they are created
+      '/pages/1) Optimizing Theory/The General Optimizing Problem.html',
     ],
   };
 

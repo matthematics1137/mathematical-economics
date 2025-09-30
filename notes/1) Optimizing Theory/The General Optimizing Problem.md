@@ -44,8 +44,7 @@
 	- generally we call $x$ which satisfies this optimization problem the **optimal solution**
 
 
-<!-- Interactive visualization placeholder: optimization explorer -->
-<div data-widget="opt-explorer" data-min="0" data-max="10" data-type="random"></div>
+<!-- Visualization removed for now; will add later. -->
 
 - now, most calculus techniques cannot actually find a solution to this problem:
 	- **local v global optima**
