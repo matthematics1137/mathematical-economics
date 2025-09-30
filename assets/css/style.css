@@ -96,6 +96,7 @@ footer { margin-top: 2rem; color: #777; font-size: 0.9rem; }
 .sidebar nav a:hover { background: rgba(0,0,0,0.06); }
 .sidebar nav a.active { background: rgba(11,102,214,0.12); color: var(--accent); font-weight: 700; }
 .content { min-width: 0; }
+.md-content { text-align: center; }
 
 /* Toggle open state */
 body.nav-open .sidebar { transform: translateX(0); }
