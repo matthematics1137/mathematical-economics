@@ -5,17 +5,46 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 NOTES = ROOT / 'notes'
 PAGES = ROOT / 'pages'
 TEMPLATE = ROOT / 'templates' / 'section.html'
+MEDIA = ROOT / 'assets' / 'media'
 
-def inline_html(s: str) -> str:
+def _is_abs_url(u: str) -> bool:
+    return bool(re.match(r'^(?:[a-z]+:)?//', u)) or u.startswith('data:') or u.startswith('/')
+
+def inline_html(s: str, rel_dir: pathlib.Path) -> str:
     s = html.escape(s)
-    s = re.sub(r'!\[([^\]]*)\]\(([^\)]+)\)', r'<img src="\2" alt="\1">', s)
+    # images ![alt](src) with asset rewrite
+    def _img_sub(m):
+        alt = m.group(1)
+        src = m.group(2)
+        if _is_abs_url(src):
+            new_src = src
+        else:
+            # copy source asset into assets/media/<rel_dir>/<src>
+            src_path = (NOTES / rel_dir / src).resolve()
+            dest_path = (MEDIA / rel_dir / src).resolve()
+            dest_path.parent.mkdir(parents=True, exist_ok=True)
+            try:
+                if src_path.exists():
+                    dest_path.write_bytes(src_path.read_bytes())
+            except Exception:
+                pass
+            # compute page-relative path: pages/<rel>.html -> ../../assets/media/<rel_dir>/<src>
+            depth = len(rel_dir.parts) + 1  # +1 because page is nested under pages/
+            prefix = '../' * depth
+            new_src = f"{prefix}assets/media/{rel_dir.as_posix()}/{src}"
+        return f'<img src="{new_src}" alt="{alt}">'
+    s = re.sub(r'!\[([^\]]*)\]\(([^\)]+)\)', _img_sub, s)
+    # links [text](url)
     s = re.sub(r'\[([^\]]+)\]\(([^\)]+)\)', r'<a href="\2">\1</a>', s)
+    # code `...`
     s = re.sub(r'`([^`]+)`', r'<code>\1</code>', s)
+    # bold **...**
     s = re.sub(r'\*\*([^*]+)\*\*', r'<strong>\1</strong>', s)
+    # italics *...*
     s = re.sub(r'(?<!\*)\*([^*]+)\*(?!\*)', r'<em>\1</em>', s)
     return s
 
-def md_to_html(md: str) -> str:
+def md_to_html(md: str, rel_dir: pathlib.Path) -> str:
     lines = md.splitlines()
     out, para = [], []
     list_stack = []
@@ -23,7 +52,7 @@ def md_to_html(md: str) -> str:
     def flush_para():
         nonlocal para
         if para:
-            out.append('<p>' + inline_html(' '.join(para).strip()) + '</p>')
+            out.append('<p>' + inline_html(' '.join(para).strip(), rel_dir) + '</p>')
             para = []
     def set_list_depth(depth: int):
         while len(list_stack) < depth:
@@ -37,7 +66,7 @@ def md_to_html(md: str) -> str:
         m = re.match(r'^(#{1,6})\s+(.*)$', line)
         if m:
             flush_para(); set_list_depth(0)
-            level = len(m.group(1)); text = inline_html(m.group(2))
+            level = len(m.group(1)); text = inline_html(m.group(2), rel_dir)
             out.append(f'<h{level}>' + text + f'</h{level}>'); continue
         if re.match(r'^-{3,}\s*$', line):
             flush_para(); set_list_depth(0); out.append('<hr>'); continue
@@ -47,7 +76,7 @@ def md_to_html(md: str) -> str:
             indent = bm.group(1).replace('\t', '    ')
             depth = min(6, len(indent)//2)
             set_list_depth(depth+1)
-            out.append('<li>' + inline_html(bm.group(3)) + '</li>'); continue
+            out.append('<li>' + inline_html(bm.group(3), rel_dir) + '</li>'); continue
         para.append(line)
     flush_para(); set_list_depth(0)
     return '\n'.join(out)
@@ -79,7 +108,8 @@ def main():
         if md_lines and re.match(r'^#\s+.+', md_lines[0]):
             md_lines = md_lines[1:]
             md = '\n'.join(md_lines)
-        html_content = md_to_html(md)
+        rel_dir = rel.parent
+        html_content = md_to_html(md, rel_dir)
         html_page = render_page(title, html_content)
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(html_page, encoding='utf-8')

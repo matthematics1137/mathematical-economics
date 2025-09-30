@@ -1,12 +1,19 @@
 #!/usr/bin/env python3
-import sys, re, html, pathlib
+import sys, re, html, pathlib, shutil
+
+ROOT = pathlib.Path(__file__).resolve().parents[1]
+NOTES = ROOT / 'notes'
+MEDIA = ROOT / 'assets' / 'media'
 
 TEMPLATE_KEYS = {
     '{{title}}': 'title',
     '{{content}}': 'content',
 }
 
-def md_to_html(md: str) -> str:
+def _is_abs_url(u: str) -> bool:
+    return bool(re.match(r'^(?:[a-z]+:)?//', u)) or u.startswith('data:') or u.startswith('/')
+
+def md_to_html(md: str, rel_dir: pathlib.Path) -> str:
     lines = md.splitlines()
     out = []
     para = []
@@ -29,7 +36,24 @@ def md_to_html(md: str) -> str:
 
     def inline(s: str) -> str:
         s = html.escape(s)
-        s = re.sub(r'!\[([^\]]*)\]\(([^\)]+)\)', r'<img src="\2" alt="\1">', s)  # images
+        def _img_sub(m):
+            alt = m.group(1); src = m.group(2)
+            if _is_abs_url(src):
+                new_src = src
+            else:
+                src_path = (NOTES / rel_dir / src).resolve()
+                dest_path = (MEDIA / rel_dir / src).resolve()
+                dest_path.parent.mkdir(parents=True, exist_ok=True)
+                try:
+                    if src_path.exists():
+                        shutil.copy2(src_path, dest_path)
+                except Exception:
+                    pass
+                depth = len(rel_dir.parts) + 1
+                prefix = '../' * depth
+                new_src = f"{prefix}assets/media/{rel_dir.as_posix()}/{src}"
+            return f'<img src="{new_src}" alt="{alt}">'
+        s = re.sub(r'!\[([^\]]*)\]\(([^\)]+)\)', _img_sub, s)  # images
         s = re.sub(r'\[([^\]]+)\]\(([^\)]+)\)', r'<a href="\2">\1</a>', s)        # links
         s = re.sub(r'`([^`]+)`', r'<code>\1</code>', s)                                    # code
         s = re.sub(r'\*\*([^*]+)\*\*', r'<strong>\1</strong>', s)                      # bold
@@ -87,7 +111,13 @@ def main(argv):
     if lines and re.match(r'^#\s+.+', lines[0]):
         lines = lines[1:]
         md = '\n'.join(lines)
-    content = md_to_html(md)
+    # Determine rel_dir relative to notes/
+    try:
+        rel = src.resolve().relative_to(NOTES)
+        rel_dir = rel.parent
+    except Exception:
+        rel_dir = pathlib.Path('.')
+    content = md_to_html(md, rel_dir)
     html_page = render(template, title, content)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(html_page, encoding='utf-8')
