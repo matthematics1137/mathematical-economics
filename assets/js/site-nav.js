@@ -2,15 +2,26 @@
 // Also renders optional next/prev links for section pages.
 
 (function(){
+  function getRoot() {
+    const script = document.currentScript || document.querySelector('script[src*="site-nav.js"]');
+    const abs = new URL(script ? script.getAttribute('src') : 'assets/js/site-nav.js', document.baseURI);
+    // Trim to repo root (folder containing assets/)
+    return abs.href.replace(/assets\/js\/site-nav\.js(?:\?.*)?$/, '');
+  }
+
   async function injectSidebar(){
-    const host = location.origin;
-    const base = location.pathname.replace(/\/[^/]*$/, '/');
     const container = document.getElementById('sidebar');
     if (!container) return;
+    const root = getRoot();
     try {
-      const res = await fetch('/assets/partials/sidebar.html');
+      const res = await fetch(root + 'assets/partials/sidebar.html');
       const html = await res.text();
       container.innerHTML = html;
+      // Fix links to be rooted at the project base
+      container.querySelectorAll('a[href^="/"]').forEach(a => {
+        const path = a.getAttribute('href').replace(/^\//,'');
+        a.setAttribute('href', root + path);
+      });
       // Mark active link
       const links = container.querySelectorAll('a[data-match]');
       links.forEach(a => {
@@ -27,6 +38,7 @@
   // Ordered navigation per section
   const NAV = {
     'optimizing-theory': [
+      // absolute path is converted later to root-relative
       '/pages/optimizing-theory/index.html',
       // add more pages here as they are created
     ],
@@ -35,12 +47,15 @@
   function renderPrevNext(){
     const el = document.getElementById('section-nav');
     if (!el) return;
+    const root = getRoot();
     const path = location.pathname;
     let foundSection = null;
     for (const [section, pages] of Object.entries(NAV)) {
-      const idx = pages.indexOf(path);
+      // Normalize page hrefs to match current path
+      const norm = pages.map(p => new URL(p.replace(/^\//,''), root).pathname);
+      const idx = norm.indexOf(path);
       if (idx !== -1) {
-        foundSection = { section, pages, idx };
+        foundSection = { section, pages: norm, idx };
         break;
       }
     }
@@ -64,4 +79,3 @@
     renderPrevNext();
   });
 })();
-
