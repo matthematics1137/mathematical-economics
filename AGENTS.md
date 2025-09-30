@@ -30,6 +30,20 @@ Markdown authoring (optional)
   - External: place `<div data-md-src="../../notes/<part>/<file>.md"></div>` and add the `.md` file under `notes/`.
 - The renderer uses Marked + DOMPurify from a CDN, and wraps rendered content with `.md-content` so the Obsidian‑style CSS applies only to that block.
 
+Pre-rendered Markdown (preferred)
+---------------------------------
+- Write notes under `notes/<part>/<page>.md` and pre-render to HTML using:
+  - `python3 tools/prerender.py notes/<part>/<page>.md pages/<part>/<page>.html "Title"`
+- Template used: `templates/section.html` (already includes sidebar, theme, and math support).
+
+LaTeX math
+----------
+- LaTeX is rendered client‑side using KaTeX auto-render (loaded via CDN on section pages).
+- Use standard delimiters:
+  - Inline: `$...$` or `\(...\)`
+  - Display: `$$...$$` or `\[...\]`
+- Output is sanitized and scoped to `.md-content`. By default, math is tinted using `--latex-orange`.
+
 Page guidelines (first three parts)
 ----------------------------------
 For Optimizing Theory, Static Economic Models, and Dynamic Economic Models, each topic page should follow this outline:

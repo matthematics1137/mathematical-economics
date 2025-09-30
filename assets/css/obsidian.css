@@ -108,6 +108,8 @@
   color: var(--latex-orange) !important;
   font-weight: bold;
 }
+/* KaTeX output tint (optional) */
+.md-content .katex { color: var(--latex-orange); }
 
 /* === BULLET MARKER COLOR BY LEVEL (EDIT + PREVIEW) === */
 .markdown-preview-view ul > li::marker,
