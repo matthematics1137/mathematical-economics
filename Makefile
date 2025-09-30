@@ -1,7 +1,7 @@
 .PHONY: build clean
 
 build:
-	python3 tools/prerender_from.py mathematical-economics/mathematical-economics-book
+	python3 tools/build_site.py
 
 clean:
 	rm -f pages/**/*.html
@@ -14,4 +14,4 @@ import:
 # Render directly from a source markdown root into pages/
 # Usage: make build-from SRC=mathematical-economics-book
 build-from:
-	python3 tools/prerender_from.py $(SRC)
+	python3 tools/build_site.py

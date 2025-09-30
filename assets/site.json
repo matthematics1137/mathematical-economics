@@ -1,0 +1,16 @@
+[
+  {
+    "label": "1 Optimizing Theory",
+    "slug": "1-optimizing-theory",
+    "pages": [
+      {
+        "title": "terms",
+        "path": "/pages/1-optimizing-theory/1-1-general-optimizing-problem/1-1-1-general-structure.html"
+      },
+      {
+        "title": "Constraints And Feasible Set",
+        "path": "/pages/1-optimizing-theory/1-1-general-optimizing-problem/1-1-2-constraints-and-feasible-set.html"
+      }
+    ]
+  }
+]

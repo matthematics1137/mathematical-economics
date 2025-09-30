@@ -3,12 +3,7 @@
 <head>
   <script>
     (function(){
-      try {
-        var m = localStorage.getItem('theme');
-        if (m === 'light' || m === 'dark') {
-          document.documentElement.setAttribute('data-theme', m);
-        }
-      } catch (e) {}
+      try { var m = localStorage.getItem('theme'); if (m === 'light' || m === 'dark') document.documentElement.setAttribute('data-theme', m); } catch (e) {}
     })();
   </script>
   <meta charset="UTF-8" />
@@ -29,37 +24,15 @@
     <main class="content">
   <div class="container">
     <h1>Mathematical Economics</h1>
-    <p class="tagline">Study notes inspired by Kevin Lancaster — organized for clarity and depth.</p>
+    <p class="tagline">Sections generated from the in-repo book.</p>
 
     <div class="card">
-      <p>
-        We will progress methodically through foundational theory and models, keeping the site
-        simple and focused. Simulations will come later; for now the emphasis is clean structure,
-        definitions, and outlines that we’ll expand together.
-      </p>
-    </div>
-
-    <div class="card">
-      <h3>1) Optimizing Theory</h3>
-      <p>Mathematical tools for optimization: convexity, Kuhn–Tucker, duality, envelope theorems, comparative statics.</p>
+      <h3>1 Optimizing Theory</h3>
       <div class="buttons">
-        <a href="pages/1 Optimizing Theory/1.1 general optimizing problem/1.1.1 general structure.html" class="button">Open Section</a>
+        <a href="/mathematical-economics/pages/1-optimizing-theory/1-1-general-optimizing-problem/1-1-1-general-structure.html" class="button">Open Section</a>
       </div>
     </div>
-    <div class="card">
-      <h3>2) Static Economic Models</h3>
-      <p>Consumer/producer theory, equilibrium and welfare analysis, comparative statics in static settings.</p>
-    </div>
-    <div class="card">
-      <h3>3) Dynamic Economic Models</h3>
-      <p>Difference/differential equations, stability, optimal control/dynamic programming, growth and adjustment.</p>
-    </div>
-    <div class="card">
-      <h3>4) Mathematical Reviews</h3>
-      <p>Targeted refreshers: linear algebra, real analysis, probability, and numerical methods relevant to the text.</p>
-    </div>
 
-    
   </div>
     </main>
   </div>
