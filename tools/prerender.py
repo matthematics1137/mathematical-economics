@@ -64,6 +64,9 @@ def md_to_html(md: str, rel_dir: pathlib.Path) -> str:
 
     for raw in lines:
         line = raw.rstrip('\n')
+        # Pass through raw HTML blocks as-is (to allow widget placeholders)
+        if line.lstrip().startswith('<'):
+            flush_para(); set_list_depth(0); out.append(line); continue
         if not line.strip():
             flush_para(); set_list_depth(0)
             continue

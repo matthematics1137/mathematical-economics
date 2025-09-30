@@ -31,10 +31,18 @@ def copy_tree(src: pathlib.Path, dst: pathlib.Path):
             shutil.copy2(sp, dp)
 
 def main(argv):
+    # Allow default path ./mathematical-economics-book if no arg provided
     if len(argv) < 2:
-        print('Usage: tools/import_from_vault.py <source_folder>')
-        return 2
-    src = pathlib.Path(argv[1]).resolve()
+        default = (ROOT / 'mathematical-economics-book')
+        if default.exists():
+            src = default.resolve()
+            print(f'No source provided; using default: {src}')
+        else:
+            print('Usage: tools/import_from_vault.py <source_folder>\n'
+                  'Or place your vault at ./mathematical-economics-book and rerun.')
+            return 2
+    else:
+        src = pathlib.Path(argv[1]).resolve()
     if not src.exists():
         print(f'Source not found: {src}')
         return 1
@@ -46,4 +54,3 @@ def main(argv):
 
 if __name__ == '__main__':
     raise SystemExit(main(sys.argv))
-
