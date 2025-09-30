@@ -12,7 +12,8 @@ Goals
 Structure
 ---------
 - `index.html` — Landing page organizing the four parts.
-- `pages/` — Reserved for future outlines/notes.
+- `mathematical-economics/mathematical-economics-book/` — Source Markdown (Obsidian vault in-repo).
+- `pages/` — Generated HTML (do not edit by hand).
 - `assets/css/style.css` — Shared styles. Keep inline styles to a minimum.
 
 Theme & color mode
@@ -33,8 +34,8 @@ Markdown authoring (optional)
 
 Pre-rendered Markdown (preferred)
 ---------------------------------
-- Write notes under `notes/<part>/<page>.md` and pre-render to HTML using:
-  - `python3 tools/prerender.py notes/<part>/<page>.md pages/<part>/<page>.html "Title"`
+- Write notes under `mathematical-economics/mathematical-economics-book/<part>/<page>.md`.
+- Build all pages with: `make build` (uses `tools/prerender_from.py`).
 - Template used: `templates/section.html` (already includes sidebar, theme, and math support).
 
 LaTeX math
@@ -73,7 +74,7 @@ Naming & organization
 ---------------------
 - File names: kebab‑case and grouped by part, e.g., `pages/optimizing-theory/kuhn-tucker.html`.
 - Assets: `assets/img/optimizing-theory/...` and optional `assets/js/optimizing-theory/...`.
-- Keep each page standalone (no build step). Avoid external dependencies unless clearly justified.
+- Source Markdown resides in the in-repo vault; the build step renders into `pages/`.
 
 Editing content
 ---------------

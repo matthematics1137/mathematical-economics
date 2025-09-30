@@ -27,17 +27,18 @@ Structure
 ---------
 - `index.html` — Landing page linking to topics
 - `pages/` — Generated HTML pages (do not edit by hand)
+- `mathematical-economics/mathematical-economics-book/` — Source Markdown (Obsidian vault content)
 - `assets/css/style.css` — Shared, lightweight styles used by all pages
 - `AGENTS.md` — Working conventions and code style
 - `ROADMAP.md` — Planned topics and status
 
-Working with Obsidian (in‑repo vault)
-------------------------------------
-- Point Obsidian at this repository folder as a vault.
-- Write notes under `notes/<section>/<page>.md` using H1 at top for the title.
-- Build pages locally: `make build` (renders Markdown from `notes/` into `pages/`).
+Authoring flow (in‑repo Obsidian vault)
+--------------------------------------
+- Open Obsidian on this repo; the vault lives under `mathematical-economics/mathematical-economics-book/`.
+- Write notes as Markdown files (use an H1 for the page title).
+- Build the site: `make build` (renders from the vault into `pages/`).
 - Commit and push; GitHub Pages serves the generated HTML.
-- For now, avoid raw `<div data-widget=...>` placeholders while drafting. We will inject visualizations later.
+- We’ll add interactive visualizations later; avoid widget placeholders for now.
 
 Roadmap
 -------

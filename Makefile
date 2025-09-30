@@ -1,14 +1,14 @@
 .PHONY: build clean
 
 build:
-	python3 tools/prerender_all.py
+	python3 tools/prerender_from.py mathematical-economics/mathematical-economics-book
 
 clean:
 	rm -f pages/**/*.html
 
 .PHONY: import
 import:
-	python3 tools/import_from_vault.py $(VAULT)
+	@echo "Deprecated: use 'make build' (renders from mathematical-economics/mathematical-economics-book)" && false
 
 .PHONY: build-from
 # Render directly from a source markdown root into pages/
