@@ -85,13 +85,31 @@ canvas, svg { width: 100%; max-width: 900px; height: auto; background: #fff; bor
 footer { margin-top: 2rem; color: #777; font-size: 0.9rem; }
 
 /* Sidebar layout */
-.layout { display: grid; grid-template-columns: 240px 1fr; gap: 1rem; align-items: start; }
-.sidebar { position: sticky; top: 1rem; align-self: start; }
-.sidebar .card { margin: 0; padding: 0.75rem 0.75rem; }
+.layout { display: grid; grid-template-columns: 1fr; align-items: start; }
+/* Sidebar becomes an off‑canvas drawer */
+.sidebar { position: fixed; inset: 0 auto 0 0; width: 260px; transform: translateX(-100%); transition: transform .2s ease-out; z-index: 1000; }
+.sidebar .card { height: 100%; margin: 0; padding: 0.75rem 0.75rem; border-radius: 0; border-right: 1px solid var(--border); }
 .sidebar nav a { display: block; padding: 6px 10px; color: var(--fg); text-decoration: none; border-radius: 6px; }
 .sidebar nav a:hover { background: rgba(0,0,0,0.06); }
 .sidebar nav a.active { background: rgba(11,102,214,0.12); color: var(--accent); font-weight: 700; }
 .content { min-width: 0; }
+
+/* Toggle open state */
+body.nav-open .sidebar { transform: translateX(0); }
+
+/* Hamburger button */
+.hamburger {
+  position: fixed; top: 12px; left: 12px; z-index: 1001;
+  background: var(--card); color: var(--fg);
+  border: 1px solid var(--border); border-radius: 8px;
+  padding: 8px 10px; cursor: pointer; font-weight: 700;
+  box-shadow: 0 1px 6px rgba(0,0,0,.06);
+}
+.hamburger:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Optional backdrop when open */
+.backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.25); z-index: 999; opacity: 0; pointer-events: none; transition: opacity .15s ease-in; }
+body.nav-open .backdrop { opacity: 1; pointer-events: auto; }
 
 @media (prefers-color-scheme: dark) {
   .sidebar nav a:hover { background: rgba(255,255,255,0.06); }
@@ -100,5 +118,4 @@ footer { margin-top: 2rem; color: #777; font-size: 0.9rem; }
 
 @media (max-width: 900px) {
   .layout { grid-template-columns: 1fr; }
-  .sidebar { position: static; }
 }

@@ -77,5 +77,16 @@
   document.addEventListener('DOMContentLoaded', function(){
     injectSidebar();
     renderPrevNext();
+    // Toggle button
+    const btn = document.getElementById('navToggle');
+    const backdrop = document.getElementById('backdrop');
+    function toggle(open){
+      const willOpen = open ?? !document.body.classList.contains('nav-open');
+      document.body.classList.toggle('nav-open', willOpen);
+      if (btn) btn.setAttribute('aria-expanded', String(willOpen));
+    }
+    if (btn) btn.addEventListener('click', () => toggle());
+    if (backdrop) backdrop.addEventListener('click', () => toggle(false));
+    document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') toggle(false); });
   });
 })();
