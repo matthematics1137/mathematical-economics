@@ -85,6 +85,11 @@ def main(argv):
     title = argv[3]
     template = pathlib.Path(argv[4]) if len(argv) > 4 else pathlib.Path('templates/section.html')
     md = src.read_text(encoding='utf-8')
+    # If first line is an H1, use title and drop that line from body
+    lines = md.splitlines()
+    if lines and re.match(r'^#\s+.+', lines[0]):
+        lines = lines[1:]
+        md = '\n'.join(lines)
     content = md_to_html(md)
     html_page = render(template, title, content)
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -93,4 +98,3 @@ def main(argv):
 
 if __name__ == '__main__':
     raise SystemExit(main(sys.argv))
-

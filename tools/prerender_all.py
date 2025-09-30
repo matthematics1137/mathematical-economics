@@ -72,6 +72,11 @@ def main():
         title_fallback = ' '.join(rel.with_suffix('').parts).replace('-', ' ').title()
         md = md_path.read_text(encoding='utf-8')
         title = extract_title(md, title_fallback)
+        # Drop first H1 from body content if present
+        md_lines = md.splitlines()
+        if md_lines and re.match(r'^#\s+.+', md_lines[0]):
+            md_lines = md_lines[1:]
+            md = '\n'.join(md_lines)
         html_content = md_to_html(md)
         html_page = render_page(title, html_content)
         out.parent.mkdir(parents=True, exist_ok=True)
@@ -83,4 +88,3 @@ def main():
 
 if __name__ == '__main__':
     raise SystemExit(main())
-
