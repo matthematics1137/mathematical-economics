@@ -21,6 +21,7 @@ Theme & color mode
 - The site automatically adapts to the visitor’s light/dark preference via `@media (prefers-color-scheme: dark)`.
 - Usage on new pages: just link `assets/css/style.css` in the `<head>`; no extra classes or wrappers needed.
 - Typography: Share Tech Mono (via Google Fonts) is the base font for a consistent “Obsidian-like” look.
+- Theme toggle: All pages include a toggle (◎) next to the hamburger. Selection persists via `localStorage` and is applied early by a small inline script to avoid flash.
 
 Markdown authoring (optional)
 -----------------------------
