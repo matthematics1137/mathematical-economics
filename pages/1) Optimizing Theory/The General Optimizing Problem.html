@@ -83,7 +83,7 @@
 </ul>
 <h2>efficient growth paths </h2>
 <ul>
-<li><strong>path</strong> - a time sequence of variables (consumption $c_t$,$ capital $k_t$)</li>
+<li><strong>path</strong> - a time sequence of variables (consumption $c_t$, capital $k_t$)</li>
 <ul>
 <ul>
 <li>an <strong>efficient</strong> growth path is one where you cannot reallocate resources to make one agent better off without making another worse off </li>
@@ -128,6 +128,34 @@
 </ul>
 </ul>
 <li>a stronger condition $&gt;$ would imply both global (true for all) and that it is unique</li>
+<li>generally we call $x$ which satisfies this optimization problem the <strong>optimal solution</strong></li>
+</ul>
+</ul>
+</ul>
+<div data-widget="opt-curve" data-a="0.5" data-m="100" data-px="1" data-py="1"></div>
+<ul>
+<li>now, most calculus techniques cannot actually find a solution to this problem:</li>
+<ul>
+<ul>
+<li><strong>local v global optima</strong></li>
+<ul>
+<ul>
+<li>in first order we set derivatives = 0 to find <em>stationary points</em> to tell us where the slops is flat (candidates for minima/maxima)</li>
+<li>the problem is this gives us only <em>local information</em></li>
+<ul>
+<ul>
+<li>not guaranteed to find the <em>global optimum</em> over the whole feasible set </li>
+</ul>
+</ul>
+</ul>
+</ul>
+<li>⭐ now you may realize we could take all the local minima / maxima found and then order them to find the optimal solution, however, we will run into a few more problems:</li>
+<ul>
+<ul>
+<li><strong>curse of dimensionality</strong> - for a $n-dimensional$ system with $n-unknowns$ we have <em>infinitely many solutions</em></li>
+<li><strong>boundaries complicate things</strong> - many optima lie <em>on the boundary</em> of the feasible set $k$, where derivative conditions will fail us (keep in mind for later❗)</li>
+</ul>
+</ul>
 </ul>
 </ul>
 </ul>
