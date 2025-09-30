@@ -52,6 +52,18 @@ Naming & organization
 - Assets: `assets/img/optimizing-theory/...` and optional `assets/js/optimizing-theory/...`.
 - Keep each page standalone (no build step). Avoid external dependencies unless clearly justified.
 
+Editing content
+---------------
+- Write your notes directly in the HTML under the placeholder comments in each page (e.g., `pages/optimizing-theory/index.html`).
+- Images: place under `assets/img/<part>/...` and include with `<img src="../../assets/img/<part>/file.png" alt="...">`.
+- If you prefer Markdown while drafting, keep a parallel `.md` file locally and paste rendered content into the HTML; no build step is used here.
+
+Sidebar + page order
+--------------------
+- The sidebar markup lives in `assets/partials/sidebar.html` and is injected on each page by `assets/js/site-nav.js`.
+- To add a new page to the left‑hand navigation, update `assets/partials/sidebar.html` with a link.
+- To enable Previous/Next buttons within a section, add the new page’s path to the ordered list in `assets/js/site-nav.js` under the correct section key (e.g., `optimizing-theory`).
+
 Reviews (fourth part)
 ---------------------
 The Mathematical Reviews section may deviate from the above (e.g., denser notes, fewer or no simulations). Maintain the same visual style and navigation.
