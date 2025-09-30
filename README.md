@@ -26,10 +26,18 @@ Scope
 Structure
 ---------
 - `index.html` — Landing page linking to topics
-- `pages/` — Reserved for future outlines/notes (empty for now)
+- `pages/` — Generated HTML pages (do not edit by hand)
 - `assets/css/style.css` — Shared, lightweight styles used by all pages
 - `AGENTS.md` — Working conventions and code style
 - `ROADMAP.md` — Planned topics and status
+
+Working with Obsidian (in‑repo vault)
+------------------------------------
+- Point Obsidian at this repository folder as a vault.
+- Write notes under `notes/<section>/<page>.md` using H1 at top for the title.
+- Build pages locally: `make build` (renders Markdown from `notes/` into `pages/`).
+- Commit and push; GitHub Pages serves the generated HTML.
+- For now, avoid raw `<div data-widget=...>` placeholders while drafting. We will inject visualizations later.
 
 Roadmap
 -------

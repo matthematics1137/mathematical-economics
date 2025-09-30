@@ -1,0 +1,16 @@
+# Obsidian vault metadata and local clutter
+.obsidian/
+.trash/
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Editor settings
+.vscode/
+.idea/
+
