@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+    (function(){
+      try {
+        var m = localStorage.getItem('theme');
+        if (m === 'light' || m === 'dark') {
+          document.documentElement.setAttribute('data-theme', m);
+        }
+      } catch (e) {}
+    })();
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>definition of optimization</title>
@@ -14,6 +24,7 @@
 </head>
 <body>
   <button id="navToggle" class="hamburger" aria-label="Toggle navigation" aria-expanded="false">≡</button>
+  <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme" title="Toggle light/dark">◎</button>
   <div id="backdrop" class="backdrop" hidden></div>
   <div class="layout">
     <aside id="sidebar" class="sidebar"></aside>

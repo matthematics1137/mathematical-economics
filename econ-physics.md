@@ -1,55 +1,92 @@
-# Economics ↔ Physics Analogy
+# Economics ↔ Physics Analogy (with Key Figures)
 
-A study guide mapping layers of economics to layers of physics.
+A lineage-style study guide mapping layers of economics to layers of physics, with representative thinkers.
 
 ---
 
 ## **Newtonian Mechanics ↔ Classical Optimization**
 - **Physics:** Deterministic motion, fixed laws, solved with calculus.
-- **Economics:** Lancaster’s framework — maximize utility/profit subject to constraints.
-- **Examples:** Consumer choice, firm production, Solow growth (passive), Ramsey model (active).
-- **Key tools:** Lagrangians, convexity, calculus of variations, control theory.
+- **Economics:** Classical optimization — agents maximize utility/profit subject to constraints.
+- **Examples:** Consumer choice, firm production, Solow growth, Ramsey model.
+- **Key figures:**
+  - **Lionel McKenzie, Gérard Debreu, Kenneth Arrow** — general equilibrium, optimization rigor.
+  - **Robert Solow** — exogenous growth (passive).
+  - **Frank Ramsey, David Cass, Tjalling Koopmans** — intertemporal optimization (active).
+  - **Kevin Lancaster** — consumer demand theory, “general optimizing problem.”
 
 ---
 
 ## **General Relativity ↔ Institutional / Structural Economics**
-- **Physics:** Gravity as curvature of spacetime; the *background itself* evolves.
-- **Economics:** Institutions, technology, and history shape the “geometry” of feasible choices.
-- **Examples:** Endogenous growth (Romer, Lucas), institutional economics (North), path dependence, multiple equilibria.
-- **Key idea:** The constraint set is not fixed — it bends and evolves with the system.
+- **Physics:** Curved spacetime; the *background itself* evolves with mass-energy.
+- **Economics:** Institutions, technology, history bend the “geometry” of feasible choices.
+- **Examples:** Endogenous growth, institutional economics, multiple equilibria, path dependence.
+- **Key figures:**
+  - **Paul Romer, Robert Lucas** — endogenous growth theory (knowledge spillovers, human capital).
+  - **Douglass North, Daron Acemoglu, James Robinson** — institutions as constraints.
+  - **Brian Arthur** — path dependence, increasing returns.
+  - **W. Brian Arthur & Paul David** — QWERTY/path dependence.
 
 ---
 
 ## **Quantum Mechanics ↔ Game Theory & Information Economics**
-- **Physics:** Probabilistic states, uncertainty, measurement changes outcomes.
-- **Economics:** Strategic interaction under uncertainty; beliefs and information matter.
-- **Examples:** Nash equilibrium, Bayesian games, mechanism design, rational expectations, stochastic optimization.
-- **Key idea:** Agents live in probability clouds of strategies and beliefs, not certainty.
+- **Physics:** Probabilistic states, uncertainty, superposition; outcomes depend on observation.
+- **Economics:** Strategic interaction under incomplete information, probabilistic beliefs.
+- **Examples:** Nash equilibrium, mechanism design, Bayesian games, rational expectations, stochastic control.
+- **Key figures:**
+  - **John Nash** — equilibrium concept.
+  - **John Harsanyi, Reinhard Selten** — refinements, incomplete info.
+  - **Leonid Hurwicz, Eric Maskin, Roger Myerson** — mechanism design.
+  - **Robert Lucas, Thomas Sargent** — rational expectations revolution.
+  - **Robert Shiller** — behavioral departures under uncertainty.
 
 ---
 
 ## **Statistical Mechanics ↔ Complexity & Emergence**
-- **Physics:** Don’t track each particle; study ensembles and emergent distributions.
-- **Economics:** Many interacting bounded-rational agents → emergent macro patterns.
-- **Examples:** Econophysics (power laws of wealth/firm sizes), agent-based models, complexity economics (Santa Fe Institute), network contagion in finance/trade.
-- **Key idea:** System-level laws emerge from micro-level heterogeneity and interaction.
+- **Physics:** Ensemble behavior, distributions, emergent macro laws.
+- **Economics:** Many interacting bounded-rational agents generate emergent macro dynamics.
+- **Examples:** Econophysics, complexity economics, agent-based models, network contagion.
+- **Key figures:**
+  - **Herbert Simon** — bounded rationality, near-decomposability.
+  - **Santa Fe Institute (W. Brian Arthur, John Holland, Murray Gell-Mann)** — complexity economics.
+  - **Econophysics pioneers (Jean-Philippe Bouchaud, Rosario Mantegna)** — power laws in finance.
+  - **Mark Granovetter, Duncan Watts, Matthew Jackson** — networks & contagion.
 
 ---
 
 ## **Grand Unification ↔ Modern Frontiers**
-- **Physics:** Attempts to unify GR and QM.
-- **Economics:** Attempts to unify optimization + uncertainty + emergence.
-- **Examples:** DSGE models (mainstream macro unification), mechanism design (engineered incentives), AI + reinforcement learning agents, econ complexity + networks.
-- **Key idea:** Bring together deterministic optimization, probabilistic strategy, and emergent dynamics into one framework.
+- **Physics:** Attempts to unify GR + QM.
+- **Economics:** Attempts to integrate optimization, uncertainty, and emergence into one framework.
+- **Examples:** DSGE, mechanism design, AI-agent economics, complexity synthesis.
+- **Key figures:**
+  - **Finn Kydland, Edward Prescott** — real business cycle theory (DSGE roots).
+  - **Olivier Blanchard, Michael Woodford** — modern DSGE & monetary policy.
+  - **Alvin Roth** — applied mechanism design, market design (kidney exchange, school choice).
+  - **AI + RL researchers** applying machine learning to economics (new frontier).
+  - **Agent-based/complexity hybrid work** (post-Santa Fe).
+
+---
+
+## **Other Possible Analogies**
+- **Thermodynamics ↔ Political Economy / Resource Constraints**  
+  Energy, entropy, resource flows as macro-constraints on all optimization. (Georgescu-Roegen, ecological economics.)
+  
+- **Quantum Field Theory ↔ Financial Markets / Continuous-Time Models**  
+  High-frequency trading, stochastic calculus (Itô, Black–Scholes, stochastic differential equations).
+
+- **Information Theory ↔ Economic Decision-Making**  
+  Claude Shannon-inspired approaches to bounded rationality, rational inattention (Chris Sims).
+
+These are less “mainline” but worth keeping in the mental map.
 
 ---
 
 ### **Summary Table**
 
-| Physics                | Economics                                  |
-|------------------------|---------------------------------------------|
-| Newtonian mechanics    | Lancaster-style optimization (Solow, Ramsey) |
-| General relativity     | Institutions, endogenous growth, path dependence |
-| Quantum mechanics      | Game theory, information, uncertainty       |
-| Statistical mechanics  | Complexity econ, agent-based models, networks |
-| Grand unification      | DSGE, mechanism design, AI-agent econ, complexity synthesis |
+| Physics                | Economics                                  | Key Figures |
+|------------------------|---------------------------------------------|-------------|
+| Newtonian mechanics    | Classical optimization (consumer choice, Solow, Ramsey) | Lancaster, Solow, Ramsey, Arrow, Debreu |
+| General relativity     | Institutions, endogenous growth, path dependence | Romer, Lucas, North, Acemoglu, Arthur |
+| Quantum mechanics      | Game theory, info, stochastic optimization | Nash, Harsanyi, Selten, Hurwicz, Maskin, Lucas |
+| Statistical mechanics  | Complexity econ, agent-based, networks      | Simon, Arthur, Holland, Bouchaud, Granovetter |
+| Grand unification      | DSGE, mechanism design, AI-agent econ, complexity synthesis | Prescott, Woodford, Roth, Santa Fe legacy |
+
