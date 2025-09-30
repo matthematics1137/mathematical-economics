@@ -46,7 +46,7 @@
 
 - now, most calculus techniques cannot actually find a solution to this problem:
 	- **local v global optima**
-		- in first order we set derivatives = 0 to find *stationary points* to tell us where the slops is flat (candidates for minima/maxima)
+		- in first order we set derivatives = 0 to find *stationary points* to tell us where the slope is flat (candidates for minima/maxima)
 		- the problem is this gives us only *local information*
 			- not guaranteed to find the *global optimum* over the whole feasible set 
 	- ⭐ now you may realize we could take all the local minima / maxima found and then order them to find the optimal solution, however, we will run into a few more problems:
