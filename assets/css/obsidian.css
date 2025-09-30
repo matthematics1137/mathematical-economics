@@ -63,42 +63,51 @@
 .markdown-source-view.mod-cm6 .HyperMD-list-line-1 .cm-strong {
   color: var(--cyber-blue);
 }
+/* Apply to plain HTML within .md-content */
+.md-content ul > li > strong { color: var(--cyber-blue); }
 
 .markdown-preview-view ul ul > li > strong,
 .markdown-source-view.mod-cm6 .HyperMD-list-line-2 .cm-strong {
   color: var(--cyber-cyan);
 }
+.md-content ul ul > li > strong { color: var(--cyber-cyan); }
 
 .markdown-preview-view ul ul ul > li > strong,
 .markdown-source-view.mod-cm6 .HyperMD-list-line-3 .cm-strong {
   color: var(--cyber-green);
 }
+.md-content ul ul ul > li > strong { color: var(--cyber-green); }
 
 .markdown-preview-view ul ul ul ul > li > strong,
 .markdown-source-view.mod-cm6 .HyperMD-list-line-4 .cm-strong {
   color: var(--cyber-pink);
 }
+.md-content ul ul ul ul > li > strong { color: var(--cyber-pink); }
 
 /* === ITALIC COLORS BY BULLET DEPTH (EDIT + PREVIEW) === */
 .markdown-preview-view ul > li > em,
 .markdown-source-view.mod-cm6 .HyperMD-list-line-1 .cm-em {
   color: var(--cyber-blue);
 }
+.md-content ul > li > em { color: var(--cyber-blue); }
 
 .markdown-preview-view ul ul > li > em,
 .markdown-source-view.mod-cm6 .HyperMD-list-line-2 .cm-em {
   color: var(--cyber-cyan);
 }
+.md-content ul ul > li > em { color: var(--cyber-cyan); }
 
 .markdown-preview-view ul ul ul > li > em,
 .markdown-source-view.mod-cm6 .HyperMD-list-line-3 .cm-em {
   color: var(--cyber-green);
 }
+.md-content ul ul ul > li > em { color: var(--cyber-green); }
 
 .markdown-preview-view ul ul ul ul > li > em,
 .markdown-source-view.mod-cm6 .HyperMD-list-line-4 .cm-em {
   color: var(--cyber-pink);
 }
+.md-content ul ul ul ul > li > em { color: var(--cyber-pink); }
 
 /* === LATEX INLINE EQUATION COLOR (EDIT + PREVIEW) === */
 .markdown-preview-view .math.math-inline,

@@ -9,8 +9,8 @@ TEMPLATE_KEYS = {
 def md_to_html(md: str) -> str:
     lines = md.splitlines()
     out = []
-    in_list = False
     para = []
+    list_stack = []  # track list depth
 
     def flush_para():
         nonlocal para
@@ -18,57 +18,54 @@ def md_to_html(md: str) -> str:
             out.append('<p>' + inline(' '.join(para).strip()) + '</p>')
             para = []
 
-    def start_list():
-        nonlocal in_list
-        if not in_list:
+    def set_list_depth(depth: int):
+        # open/close <ul> to reach desired depth
+        while len(list_stack) < depth:
             out.append('<ul>')
-            in_list = True
-
-    def end_list():
-        nonlocal in_list
-        if in_list:
+            list_stack.append('ul')
+        while len(list_stack) > depth:
             out.append('</ul>')
-            in_list = False
+            list_stack.pop()
 
     def inline(s: str) -> str:
         s = html.escape(s)
-        # images ![alt](src)
-        s = re.sub(r'!\[([^\]]*)\]\(([^\)]+)\)', r'<img src="\2" alt="\1">', s)
-        # links [text](url)
-        s = re.sub(r'\[([^\]]+)\]\(([^\)]+)\)', r'<a href="\2">\1</a>', s)
-        # code `...`
-        s = re.sub(r'`([^`]+)`', r'<code>\1</code>', s)
-        # bold **...**
-        s = re.sub(r'\*\*([^*]+)\*\*', r'<strong>\1</strong>', s)
-        # italics *...*
-        s = re.sub(r'(?<!\*)\*([^*]+)\*(?!\*)', r'<em>\1</em>', s)
+        s = re.sub(r'!\[([^\]]*)\]\(([^\)]+)\)', r'<img src="\2" alt="\1">', s)  # images
+        s = re.sub(r'\[([^\]]+)\]\(([^\)]+)\)', r'<a href="\2">\1</a>', s)        # links
+        s = re.sub(r'`([^`]+)`', r'<code>\1</code>', s)                                    # code
+        s = re.sub(r'\*\*([^*]+)\*\*', r'<strong>\1</strong>', s)                      # bold
+        s = re.sub(r'(?<!\*)\*([^*]+)\*(?!\*)', r'<em>\1</em>', s)                     # italics
         return s
+
+    bullet_re = re.compile(r'^([ \t]*)([-\*])\s+(.*)$')
 
     for raw in lines:
         line = raw.rstrip('\n')
         if not line.strip():
-            flush_para()
-            end_list()
+            flush_para(); set_list_depth(0)
             continue
         m = re.match(r'^(#{1,6})\s+(.*)$', line)
         if m:
-            flush_para(); end_list()
+            flush_para(); set_list_depth(0)
             level = len(m.group(1))
             text = inline(m.group(2))
             out.append(f'<h{level}>' + text + f'</h{level}>')
             continue
         if re.match(r'^-{3,}\s*$', line):
-            flush_para(); end_list()
+            flush_para(); set_list_depth(0)
             out.append('<hr>')
             continue
-        m = re.match(r'^(?:- |\* )\s*(.*)$', line)
-        if m:
-            flush_para(); start_list()
-            out.append('<li>' + inline(m.group(1)) + '</li>')
+        bm = bullet_re.match(line)
+        if bm:
+            flush_para()
+            indent = bm.group(1).replace('\t', '    ')
+            depth = min(6, len(indent) // 2)  # 2 spaces per level (tabs become 4)
+            set_list_depth(depth + 1)
+            out.append('<li>' + inline(bm.group(3)) + '</li>')
             continue
+        # plain text
         para.append(line)
 
-    flush_para(); end_list()
+    flush_para(); set_list_depth(0)
     return '\n'.join(out)
 
 def render(template_path: pathlib.Path, title: str, content_html: str) -> str:

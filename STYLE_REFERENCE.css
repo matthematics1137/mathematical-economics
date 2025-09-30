@@ -1,0 +1,20 @@
+/* Reference copy of the Obsidian-like CSS provided by the author.
+   Not imported; kept for color/font reference. */
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+:root {
+  --cyber-red-1:     #ff5c5c;
+  --cyber-red-2:     #e14b4b;
+  --cyber-red-3:     #c0392b;
+  --cyber-red-4:     #8a2c2c;
+  --cyber-purple:    #9b59b6;
+  --cyber-pink:      #d26ecf;
+  --cyber-cyan:      #4fb0c6;
+  --cyber-blue:      #5dade2;
+  --cyber-green:     #1abc9c;
+  --latex-orange:    #f39c12;
+  --text-soft:       #d0d0d0;
+}
+
+/* See assets/css/obsidian.css for applied rules */
+

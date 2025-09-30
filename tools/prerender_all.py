@@ -18,36 +18,38 @@ def inline_html(s: str) -> str:
 def md_to_html(md: str) -> str:
     lines = md.splitlines()
     out, para = [], []
-    in_list = False
+    list_stack = []
+    bullet_re = re.compile(r'^([ \t]*)([-\*])\s+(.*)$')
     def flush_para():
         nonlocal para
         if para:
             out.append('<p>' + inline_html(' '.join(para).strip()) + '</p>')
             para = []
-    def start_list():
-        nonlocal in_list
-        if not in_list:
-            out.append('<ul>'); in_list = True
-    def end_list():
-        nonlocal in_list
-        if in_list:
-            out.append('</ul>'); in_list = False
+    def set_list_depth(depth: int):
+        while len(list_stack) < depth:
+            out.append('<ul>'); list_stack.append('ul')
+        while len(list_stack) > depth:
+            out.append('</ul>'); list_stack.pop()
     for raw in lines:
         line = raw.rstrip('\n')
         if not line.strip():
-            flush_para(); end_list(); continue
+            flush_para(); set_list_depth(0); continue
         m = re.match(r'^(#{1,6})\s+(.*)$', line)
         if m:
-            flush_para(); end_list()
+            flush_para(); set_list_depth(0)
             level = len(m.group(1)); text = inline_html(m.group(2))
             out.append(f'<h{level}>' + text + f'</h{level}>'); continue
         if re.match(r'^-{3,}\s*$', line):
-            flush_para(); end_list(); out.append('<hr>'); continue
-        m = re.match(r'^(?:- |\* )\s*(.*)$', line)
-        if m:
-            flush_para(); start_list(); out.append('<li>' + inline_html(m.group(1)) + '</li>'); continue
+            flush_para(); set_list_depth(0); out.append('<hr>'); continue
+        bm = bullet_re.match(line)
+        if bm:
+            flush_para()
+            indent = bm.group(1).replace('\t', '    ')
+            depth = min(6, len(indent)//2)
+            set_list_depth(depth+1)
+            out.append('<li>' + inline_html(bm.group(3)) + '</li>'); continue
         para.append(line)
-    flush_para(); end_list()
+    flush_para(); set_list_depth(0)
     return '\n'.join(out)
 
 def extract_title(md: str, fallback: str) -> str:
