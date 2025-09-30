@@ -22,6 +22,14 @@ Theme & color mode
 - Usage on new pages: just link `assets/css/style.css` in the `<head>`; no extra classes or wrappers needed.
 - Typography: Share Tech Mono (via Google Fonts) is the base font for a consistent “Obsidian-like” look.
 
+Markdown authoring (optional)
+-----------------------------
+- You can draft content in Markdown and render it client‑side.
+- Include `assets/js/md-render.js` on the page, then either:
+  - Inline: place a `<script type="text/markdown" data-target="#some-id">…</script>` and a `<div id="some-id"></div>` where it should render.
+  - External: place `<div data-md-src="../../notes/<part>/<file>.md"></div>` and add the `.md` file under `notes/`.
+- The renderer uses Marked + DOMPurify from a CDN, and wraps rendered content with `.md-content` so the Obsidian‑style CSS applies only to that block.
+
 Page guidelines (first three parts)
 ----------------------------------
 For Optimizing Theory, Static Economic Models, and Dynamic Economic Models, each topic page should follow this outline:

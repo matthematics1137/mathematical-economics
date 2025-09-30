@@ -16,10 +16,10 @@
   --text-soft:       #d0d0d0;
 }
 
-/* === BASE FONT AND TEXT COLOR (EDIT + PREVIEW) === */
-body,
-.markdown-preview-view,
-.markdown-source-view.mod-cm6 .cm-line {
+/* === BASE FONT AND TEXT COLOR (scoped to .md-content) === */
+.md-content,
+.md-content .markdown-preview-view,
+.md-content .markdown-source-view.mod-cm6 .cm-line {
   font-family: 'Share Tech Mono', monospace !important;
   color: var(--text-soft);
 }
@@ -29,26 +29,26 @@ body,
 .markdown-source-view.mod-cm6 .cm-header-1 {
   color: var(--cyber-red-1);
 }
-/* Apply to plain HTML headings as well */
-h1 { color: var(--cyber-red-1); }
+/* Apply to plain HTML headings within .md-content */
+.md-content h1 { color: var(--cyber-red-1); }
 
 .markdown-preview-view h2,
 .markdown-source-view.mod-cm6 .cm-header-2 {
   color: var(--cyber-red-2);
 }
-h2 { color: var(--cyber-red-2); }
+.md-content h2 { color: var(--cyber-red-2); }
 
 .markdown-preview-view h3,
 .markdown-source-view.mod-cm6 .cm-header-3 {
   color: var(--cyber-red-3);
 }
-h3 { color: var(--cyber-red-3); }
+.md-content h3 { color: var(--cyber-red-3); }
 
 .markdown-preview-view h4,
 .markdown-source-view.mod-cm6 .cm-header-4 {
   color: var(--cyber-red-4);
 }
-h4 { color: var(--cyber-red-4); }
+.md-content h4 { color: var(--cyber-red-4); }
 
 .markdown-preview-view h5,
 .markdown-source-view.mod-cm6 .cm-header-5,
@@ -56,7 +56,7 @@ h4 { color: var(--cyber-red-4); }
 .markdown-source-view.mod-cm6 .cm-header-6 {
   color: var(--cyber-purple);
 }
-h5, h6 { color: var(--cyber-purple); }
+.md-content h5, .md-content h6 { color: var(--cyber-purple); }
 
 /* === BOLD COLORS BY BULLET DEPTH (EDIT + PREVIEW) === */
 .markdown-preview-view ul > li > strong,
@@ -114,25 +114,25 @@ h5, h6 { color: var(--cyber-purple); }
 .markdown-source-view.mod-cm6 .HyperMD-list-line-1::marker {
   color: var(--cyber-purple);
 }
-ul > li::marker { color: var(--cyber-purple); }
+.md-content ul > li::marker { color: var(--cyber-purple); }
 
 .markdown-preview-view ul ul > li::marker,
 .markdown-source-view.mod-cm6 .HyperMD-list-line-2::marker {
   color: var(--cyber-blue);
 }
-ul ul > li::marker { color: var(--cyber-blue); }
+.md-content ul ul > li::marker { color: var(--cyber-blue); }
 
 .markdown-preview-view ul ul ul > li::marker,
 .markdown-source-view.mod-cm6 .HyperMD-list-line-3::marker {
   color: var(--cyber-green);
 }
-ul ul ul > li::marker { color: var(--cyber-green); }
+.md-content ul ul ul > li::marker { color: var(--cyber-green); }
 
 .markdown-preview-view ul ul ul ul > li::marker,
 .markdown-source-view.mod-cm6 .HyperMD-list-line-4::marker {
   color: var(--cyber-pink);
 }
-ul ul ul ul > li::marker { color: var(--cyber-pink); }
+.md-content ul ul ul ul > li::marker { color: var(--cyber-pink); }
 
 /* === FILE TAB TITLE COLOR === */
 .workspace-leaf.mod-active .view-header .view-header-title,
