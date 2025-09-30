@@ -13,7 +13,7 @@
   </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>definition of optimization</title>
+  <title>terms</title>
   <link rel="stylesheet" href="../../assets/css/style.css" />
   <script defer src="../../assets/js/site-nav.js"></script>
   <!-- KaTeX for LaTeX rendering -->
@@ -32,8 +32,23 @@
   <div class="layout">
     <aside id="sidebar" class="sidebar"></aside>
     <main class="content md-content">
-      <h1>definition of optimization</h1>
+      <h1>terms</h1>
       <ul>
+<li>some concepts we should cover before getting into the meat of the subject</li>
+<li>generally we have some kind of <strong>social objective</strong> like growth we want to <strong>optimize</strong> by maximizing its value, under certain real world <strong>constraints</strong> or limitations. </li>
+<ul>
+<ul>
+<li>we consider this optimization under different <strong>growth paths</strong> trying to find the most efficient ones which allow us to maximize a given variable without too negatively effecting others that are at odds (growth v welfare etc)</li>
+<ul>
+<ul>
+<li>this is done through different kind of economic models which could be <strong>active</strong> where agents respond to data or <strong>passive</strong> where we let the system run</li>
+</ul>
+</ul>
+</ul>
+</ul>
+</ul>
+<h2>optimization</h2>
+<ul>
 <li><strong>optimization</strong> - catch all term for maximizing, minimizing, or finding a saddle point </li>
 <ul>
 <ul>
@@ -50,11 +65,11 @@
 <li>mathematically:</li>
 <ul>
 <ul>
-<li>$max_{x \in X}$, $f(x)$ $s.t.$ $g(x) \leqslant b$ </li>
+<li>$max_{x \in X}$, $f(x)$ $s.t.$ $g(x) \leq b$ </li>
 </ul>
 </ul>
 </ul>
-<h1>passive vs active economic models </h1>
+<h2>passive vs active economic models </h2>
 <ul>
 <li><strong>passive model</strong> - the system evolves automatically according to constraints once conditions are set (ex solow growth model)</li>
 <li><strong>active model</strong> - system with <em>agents</em> that make <em>choices</em> in order to optimize</li>
@@ -65,7 +80,7 @@
 </ul>
 </ul>
 </ul>
-<h1>efficient growth paths </h1>
+<h2>efficient growth paths </h2>
 <ul>
 <li><strong>path</strong> - a time sequence of variables (consumption $c_t$,$ capital $k_t$)</li>
 <ul>
@@ -79,7 +94,42 @@
 </ul>
 </ul>
 </ul>
-<h1>optimal policy models </h1>
+<h2>optimal policy models </h2>
+<ul>
+<li>generally here we have a <strong>social objective (welfare, stability, growth)</strong> trying to be optimized by an agent (government, planner, etc)</li>
+<ul>
+<ul>
+<li><em>control variables</em> = policy instruments (taxes)</li>
+<li><em>state variables</em> = economic stocks (capital, debt)</li>
+<li><em>problem</em> = maximize social welfare given constraints</li>
+<li>leads into <strong>optimal control theory</strong> ⭐</li>
+</ul>
+</ul>
+</ul>
+<h1>the general structure</h1>
+<ul>
+<li>to skip to the end we would say:</li>
+<ul>
+<ul>
+<li>find $x^<em> \in k$ $s.t.$ $f(x^</em>) \geq f(x)$ for all $x \in k$ </li>
+<li>$k$ = <strong>feasible set</strong></li>
+<li>$f(x)$ = <strong>objective function</strong></li>
+</ul>
+</ul>
+<li>basically this means we have some variable (growth, employment, etc) that we want to find the maximum value of, and to ground things in reality we use a feasible set because it means we are limiting ourselves to things we can actually do, otherwise the function is unbounded and we could get mathematically correct answers that have no meaning in the real world </li>
+<ul>
+<ul>
+<li>our value here is called <strong>weakly global</strong> because we use $\geq$, we entertain the possibility that there are multiple <em>highest points</em> on this optimization curve </li>
+<ul>
+<ul>
+<li><strong>weak</strong> - not unique</li>
+<li><strong>global</strong> - true for all $x \in k$ </li>
+</ul>
+</ul>
+<li>a stronger condition $&gt;$ would imply both global (true for all) and that it is unique</li>
+</ul>
+</ul>
+</ul>
       <div id="section-nav" style="margin-top: 1rem;"></div>
     </main>
   </div>
