@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{title}}</title>
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+  <script defer src="../../assets/js/site-nav.js"></script>
+</head>
+<body>
+  <button id="navToggle" class="hamburger" aria-label="Toggle navigation" aria-expanded="false">≡</button>
+  <div id="backdrop" class="backdrop" hidden></div>
+  <div class="layout">
+    <aside id="sidebar" class="sidebar"></aside>
+    <main class="content md-content">
+      <h1>{{title}}</h1>
+      {{content}}
+      <div id="section-nav" style="margin-top: 1rem;"></div>
+    </main>
+  </div>
+</body>
+</html>
+
