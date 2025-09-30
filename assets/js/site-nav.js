@@ -38,7 +38,8 @@
   // Ordered navigation per section
   const NAV = {
     'optimizing-theory': [
-      '/pages/1) Optimizing Theory/The General Optimizing Problem.html',
+      '/pages/1 Optimizing Theory/1.1 general optimizing problem/1.1.1 general structure.html',
+      '/pages/1 Optimizing Theory/1.1 general optimizing problem/1.1.2 constraints and feasible set.html',
     ],
   };
 
