@@ -26,7 +26,8 @@
       const links = container.querySelectorAll('a[data-match]');
       links.forEach(a => {
         const pat = a.getAttribute('data-match');
-        if (location.pathname.endsWith(pat) || location.pathname.includes(pat)) {
+        const currentPath = decodeURIComponent(location.pathname);
+        if (currentPath.endsWith(pat) || currentPath.includes(pat)) {
           a.classList.add('active');
         }
       });
@@ -47,12 +48,13 @@
     const el = document.getElementById('section-nav');
     if (!el) return;
     const root = getRoot();
-    const path = location.pathname;
+    const path = decodeURIComponent(location.pathname);
     let foundSection = null;
     for (const [section, pages] of Object.entries(NAV)) {
       // Normalize page hrefs to match current path
       const norm = pages.map(p => new URL(p.replace(/^\//,''), root).pathname);
-      const idx = norm.indexOf(path);
+      const normDecoded = norm.map(decodeURIComponent);
+      const idx = normDecoded.indexOf(path);
       if (idx !== -1) {
         foundSection = { section, pages: norm, idx };
         break;
