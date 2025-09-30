@@ -1,11 +1,8 @@
-// Injects the shared sidebar into #sidebar and marks active link.
-// Also renders optional next/prev links for section pages.
-
+// Injects the shared sidebar and renders Prev/Next using the generated manifest.
 (function(){
   function getRoot() {
     const script = document.currentScript || document.querySelector('script[src*="site-nav.js"]');
     const abs = new URL(script ? script.getAttribute('src') : 'assets/js/site-nav.js', document.baseURI);
-    // Trim to repo root (folder containing assets/)
     return abs.href.replace(/assets\/js\/site-nav\.js(?:\?.*)?$/, '');
   }
 
@@ -17,12 +14,12 @@
       const res = await fetch(root + 'assets/partials/sidebar.html?v=20250930');
       const html = await res.text();
       container.innerHTML = html;
-      // Fix links to be rooted at the project base
+      const basePath = new URL(root).pathname; // e.g., /mathematical-economics/
       container.querySelectorAll('a[href^="/"]').forEach(a => {
-        const path = a.getAttribute('href').replace(/^\//,'');
-        a.setAttribute('href', root + path);
+        const href = a.getAttribute('href');
+        if (href.startsWith(basePath)) return; // already rooted under repo base
+        a.setAttribute('href', root + href.replace(/^\//,''));
       });
-      // Mark active link
       const links = container.querySelectorAll('a[data-match]');
       links.forEach(a => {
         const pat = a.getAttribute('data-match');
@@ -31,39 +28,33 @@
           a.classList.add('active');
         }
       });
-    } catch (e) {
-      // no-op
-    }
+    } catch (e) {}
   }
 
-  // Ordered navigation per section
-  const NAV = {
-    'optimizing-theory': [
-      '/pages/1 Optimizing Theory/1.1 general optimizing problem/1.1.1 general structure.html',
-      '/pages/1 Optimizing Theory/1.1 general optimizing problem/1.1.2 constraints and feasible set.html',
-    ],
-  };
+  async function loadManifest(){
+    const root = getRoot();
+    try {
+      const res = await fetch(root + 'assets/site.json?v=20250930');
+      return await res.json();
+    } catch (e) { return []; }
+  }
 
-  function renderPrevNext(){
+  async function renderPrevNext(){
     const el = document.getElementById('section-nav');
     if (!el) return;
     const root = getRoot();
     const path = decodeURIComponent(location.pathname);
-    let foundSection = null;
-    for (const [section, pages] of Object.entries(NAV)) {
-      // Normalize page hrefs to match current path
-      const norm = pages.map(p => new URL(p.replace(/^\//,''), root).pathname);
-      const normDecoded = norm.map(decodeURIComponent);
-      const idx = normDecoded.indexOf(path);
-      if (idx !== -1) {
-        foundSection = { section, pages: norm, idx };
-        break;
+    const manifest = await loadManifest();
+    const flat = [];
+    for (const sect of manifest) {
+      for (const p of sect.pages) {
+        flat.push(new URL(p.path.replace(/^\//,''), root).pathname);
       }
     }
-    if (!foundSection) return;
-    const { pages, idx } = foundSection;
-    const prev = pages[idx-1];
-    const next = pages[idx+1];
+    const idx = flat.indexOf(path);
+    if (idx === -1) return;
+    const prev = flat[idx-1];
+    const next = flat[idx+1];
     const makeBtn = (href, label, disabled) => disabled ?
       `<span class="button" style="opacity:.5;pointer-events:none">${label}</span>` :
       `<a class="button" href="${href}">${label}</a>`;
@@ -92,44 +83,38 @@
 
     // Theme toggle
     const tbtn = document.getElementById('themeToggle');
-    const root = document.documentElement;
+    const rootEl = document.documentElement;
     const saved = localStorage.getItem('theme');
-    if (saved === 'light' || saved === 'dark') {
-      root.setAttribute('data-theme', saved);
-    }
+    if (saved === 'light' || saved === 'dark') rootEl.setAttribute('data-theme', saved);
     function updateLabel(){
       if (!tbtn) return;
-      const mode = root.getAttribute('data-theme') || 'auto';
+      const mode = rootEl.getAttribute('data-theme') || 'auto';
       tbtn.textContent = mode === 'dark' ? '☾' : (mode === 'light' ? '☀' : '◎');
       tbtn.title = 'Toggle light/dark (current: ' + mode + ')';
     }
     updateLabel();
     if (tbtn) tbtn.addEventListener('click', () => {
-      const current = root.getAttribute('data-theme');
+      const current = rootEl.getAttribute('data-theme');
       const next = current === 'dark' ? 'light' : (current === 'light' ? null : 'dark');
-      if (next) {
-        root.setAttribute('data-theme', next);
-        localStorage.setItem('theme', next);
-      } else {
-        root.removeAttribute('data-theme');
-        localStorage.removeItem('theme');
-      }
+      if (next) { rootEl.setAttribute('data-theme', next); localStorage.setItem('theme', next); }
+      else { rootEl.removeAttribute('data-theme'); localStorage.removeItem('theme'); }
       updateLabel();
     });
 
     // Font size slider (global)
     const fs = document.getElementById('fontSize');
-    const rootEl = document.documentElement;
+    const rootEl2 = document.documentElement;
     const savedFs = parseInt(localStorage.getItem('fontSizePct') || '', 10);
     const initialFs = Number.isFinite(savedFs) ? savedFs : 140;
-    rootEl.style.fontSize = initialFs + '%';
+    rootEl2.style.fontSize = initialFs + '%';
     if (fs) {
       fs.value = String(initialFs);
       fs.addEventListener('input', () => {
         const v = Math.max(90, Math.min(220, parseInt(fs.value, 10) || initialFs));
-        rootEl.style.fontSize = v + '%';
+        rootEl2.style.fontSize = v + '%';
         localStorage.setItem('fontSizePct', String(v));
       });
     }
   });
 })();
+

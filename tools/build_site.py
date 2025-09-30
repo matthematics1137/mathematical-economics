@@ -165,6 +165,11 @@ def main():
     for sect in manifest:
         first = sect['pages'][0]['path'] if sect['pages'] else f"/pages/{sect['slug']}/"
         sidebar.append(f'    <a href="{ASSET_BASE}{first}" data-match="/pages/{sect["slug"]}/">{html.escape(sect["label"])}</a>')
+        if sect['pages']:
+            sidebar.append('    <ul style="margin:6px 0 10px 16px; padding:0; list-style: none;">')
+            for p in sect['pages']:
+                sidebar.append(f'      <li><a href="{ASSET_BASE}{p["path"]}">{html.escape(p["title"])}</a></li>')
+            sidebar.append('    </ul>')
     sidebar += ['  </nav>', '</div>']
     (PARTIALS / 'sidebar.html').write_text('\n'.join(sidebar), encoding='utf-8')
 
