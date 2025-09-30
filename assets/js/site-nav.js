@@ -14,7 +14,7 @@
     if (!container) return;
     const root = getRoot();
     try {
-      const res = await fetch(root + 'assets/partials/sidebar.html');
+      const res = await fetch(root + 'assets/partials/sidebar.html?v=20250930');
       const html = await res.text();
       container.innerHTML = html;
       // Fix links to be rooted at the project base
