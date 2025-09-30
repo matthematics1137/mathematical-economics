@@ -115,5 +115,20 @@
       }
       updateLabel();
     });
+
+    // Font size slider (global)
+    const fs = document.getElementById('fontSize');
+    const rootEl = document.documentElement;
+    const savedFs = parseInt(localStorage.getItem('fontSizePct') || '', 10);
+    const initialFs = Number.isFinite(savedFs) ? savedFs : 140;
+    rootEl.style.fontSize = initialFs + '%';
+    if (fs) {
+      fs.value = String(initialFs);
+      fs.addEventListener('input', () => {
+        const v = Math.max(90, Math.min(220, parseInt(fs.value, 10) || initialFs));
+        rootEl.style.fontSize = v + '%';
+        localStorage.setItem('fontSizePct', String(v));
+      });
+    }
   });
 })();
