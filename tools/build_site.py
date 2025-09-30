@@ -16,10 +16,11 @@ def slugify(s: str) -> str:
     s = re.sub(r'-{2,}', '-', s).strip('-')
     return s or 'index'
 
-def title_from_name(name: str) -> str:
-    name = re.sub(r'^[0-9_.-]+', '', name)  # drop numeric prefixes if any
-    name = name.replace('-', ' ').replace('_',' ').strip()
-    return ' '.join(w.capitalize() for w in name.split())
+def split_num_label(name: str):
+    m = re.match(r'^(\d+(?:\.\d+)*)\s+(.+)$', name.strip())
+    if m:
+        return m.group(1), m.group(2)
+    return '', name.strip()
 
 def _is_abs_url(u: str) -> bool:
     return bool(re.match(r'^(?:[a-z]+:)?//', u)) or u.startswith('data:') or u.startswith('/')
@@ -91,12 +92,7 @@ def md_to_html(md: str, rel_dir: pathlib.Path, src_root: pathlib.Path) -> str:
     flush_para(); set_list_depth(0)
     return '\n'.join(out)
 
-def extract_title(md: str, fallback: str) -> str:
-    for line in md.splitlines():
-        m = re.match(r'^#\s+(.*)$', line)
-        if m:
-            return m.group(1).strip()
-    return fallback
+# Titles come from filenames; content headings are rendered in-body.
 
 def render_page(title: str, content_html: str) -> str:
     tpl = TEMPLATE.read_text(encoding='utf-8')
@@ -140,11 +136,15 @@ def main():
             out_html = PAGES.joinpath(*(out_dirs + [name_slug + '.html']))
             out_html.parent.mkdir(parents=True, exist_ok=True)
             md = md_path.read_text(encoding='utf-8')
-            title = extract_title(md, title_from_name(md_path.stem))
-            # Drop first H1
+            # Title from filename (preserve case) with numeric prefix if present
+            num, label = split_num_label(md_path.stem)
+            title = (num + ' ' if num else '') + label
+            # Drop a leading H1 if it equals the computed title (case-insensitive)
             md_lines = md.splitlines()
             if md_lines and re.match(r'^#\s+.+', md_lines[0]):
-                md_lines = md_lines[1:]
+                first = re.sub(r'^#\s+', '', md_lines[0]).strip()
+                if first.lower() == title.lower() or first.lower() == label.lower():
+                    md_lines = md_lines[1:]
                 md = '\n'.join(md_lines)
             rel_dir = rel.parent
             content = md_to_html(md, rel_dir, BOOK)
