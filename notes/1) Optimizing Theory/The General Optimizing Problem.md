@@ -44,7 +44,8 @@
 	- generally we call $x$ which satisfies this optimization problem the **optimal solution**
 
 
-<div data-widget="please create an interactive visualization to show an optimization curve, allow user to interact by randomly generating simple functions and a slider to move x across, where local / global maximia" data-a="0.5" data-m="100" data-px="1" data-py="1"></div>
+<!-- Interactive visualization placeholder: optimization explorer -->
+<div data-widget="opt-explorer" data-min="0" data-max="10" data-type="random"></div>
 
 - now, most calculus techniques cannot actually find a solution to this problem:
 	- **local v global optima**
@@ -54,4 +55,3 @@
 	- ⭐ now you may realize we could take all the local minima / maxima found and then order them to find the optimal solution, however, we will run into a few more problems:
 		- **curse of dimensionality** - for a $n-dimensional$ system with $n-unknowns$ we have *infinitely many solutions*
 		- **boundaries complicate things** - many optima lie *on the boundary* of the feasible set $k$, where derivative conditions will fail us (keep in mind for later❗)
-
