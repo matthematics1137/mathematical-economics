@@ -115,15 +115,23 @@ def render_page(title: str, content_html: str) -> str:
 
 def build_manifest():
     sections = {}
+    # Include all top-level directories as sections, even if empty
+    for entry in sorted(BOOK.iterdir()):
+        if entry.is_dir() and not entry.name.startswith('.'):
+            sections.setdefault(entry.name, [])
+    # Attach any Markdown files to their top-level section
     for md_path in BOOK.rglob('*.md'):
-        rel = md_path.relative_to(BOOK)
+        try:
+            rel = md_path.relative_to(BOOK)
+        except Exception:
+            continue
         parts = list(rel.parts)
-        if len(parts) == 0:
+        if not parts:
             continue
         section_key = parts[0]
         sections.setdefault(section_key, []).append(md_path)
     # sort each section's pages by path
-    for k in sections:
+    for k in list(sections.keys()):
         sections[k] = sorted(sections[k])
     return sections
 
@@ -170,6 +178,15 @@ def main():
             print(f'Rendered {md_path} -> {out_html}')
         manifest.append(sect_entry)
 
+        # Create a simple section landing page at /pages/<sect-slug>/index.html
+        sec_index = sect_out_dir / 'index.html'
+        links = []
+        for p in sect_entry['pages']:
+            links.append(f'<li><a href="{ASSET_BASE}{p["path"]}">{html.escape(p["title"])}</a></li>')
+        sec_body = '<ul>' + '\n'.join(links) + '</ul>' if links else '<p>Coming soon.</p>'
+        sec_html = render_page(sect_label, sec_body)
+        sec_index.write_text(sec_html, encoding='utf-8')
+
     # Write a small manifest for client-side use if needed
     (ROOT / 'assets').mkdir(exist_ok=True)
     (ROOT / 'assets' / 'site.json').write_text(json.dumps(manifest, indent=2), encoding='utf-8')
@@ -178,7 +195,7 @@ def main():
     PARTIALS.mkdir(parents=True, exist_ok=True)
     sidebar = ['<div class="card">', '  <nav>', f'    <a href="{ASSET_BASE}/index.html" data-match="/index.html">Home</a>', '    <hr style="border:none;border-top:1px solid var(--border);margin:8px 0;">', '    <strong style="display:block;padding:4px 10px;color:var(--muted)">Sections</strong>']
     for sect in manifest:
-        first = sect['pages'][0]['path'] if sect['pages'] else f"/pages/{sect['slug']}/"
+        first = sect['pages'][0]['path'] if sect['pages'] else f"/pages/{sect['slug']}/index.html"
         sidebar.append(f'    <a href="{ASSET_BASE}{first}" data-match="/pages/{sect["slug"]}/">{html.escape(sect["label"])}</a>')
         if sect['pages']:
             sidebar.append('    <ul style="margin:6px 0 10px 16px; padding:0; list-style: none;">')

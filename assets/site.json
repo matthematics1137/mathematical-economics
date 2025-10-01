@@ -16,5 +16,20 @@
         "path": "/pages/1-optimizing-theory/1-1-general-optimizing-problem/1-1-3-general-optimizing-problem.html"
       }
     ]
+  },
+  {
+    "label": "2 Static Economic Models",
+    "slug": "2-static-economic-models",
+    "pages": []
+  },
+  {
+    "label": "3 Dynamic Economic Models",
+    "slug": "3-dynamic-economic-models",
+    "pages": []
+  },
+  {
+    "label": "4 Mathematical Reviews",
+    "slug": "4-mathematical-reviews",
+    "pages": []
   }
 ]
