@@ -1,7 +1,7 @@
 {
   "builder": "in-repo-builder",
   "version": "local",
-  "built_at": "2025-10-01T11:34:15.652053+00:00",
+  "built_at": "2025-10-01T11:45:13.689118+00:00",
   "source": "/home/somebody/mathematical-economics/mathematical-economics/mathematical-economics-book",
   "output": "/home/somebody/mathematical-economics/pages",
   "asset_base": "/mathematical-economics",

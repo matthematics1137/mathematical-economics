@@ -154,8 +154,8 @@ def main():
         sect_out_dir = PAGES / sect_slug
         sect_out_dir.mkdir(parents=True, exist_ok=True)
         sect_entry = { 'label': sect_label, 'slug': sect_slug, 'pages': [] }
-        # Track pages grouped by immediate subsection (second-level dir)
-        by_child = {}
+        # Track pages grouped by directory (relative to BOOK)
+        pages_by_dir = {}
         for md_path in files:
             rel = md_path.relative_to(BOOK)
             # Build slugged output path mirroring directories; stem for filename
@@ -180,52 +180,51 @@ def main():
             out_html.write_text(html_page, encoding='utf-8')
             url_path = f"/pages/{'/'.join(out_dirs + [name_slug + '.html'])}"
             sect_entry['pages'].append({ 'title': title, 'path': url_path })
-            # Group under immediate child directory if present
-            child = rel.parts[1] if len(rel.parts) > 1 else ''
-            if child:
-                by_child.setdefault(child, []).append({ 'title': title, 'path': url_path })
+            # Group pages under their parent directory (relative path)
+            parent_dir = rel.parent
+            pages_by_dir.setdefault(parent_dir, []).append({ 'title': title, 'path': url_path })
             print(f'Rendered {md_path} -> {out_html}')
         manifest.append(sect_entry)
 
-        # Create section and subsection landing pages
+        # Create index pages for the entire directory tree under this section
         src_section_dir = BOOK / sect_label
-        child_dirs = []
-        try:
-            child_dirs = [d for d in sorted(src_section_dir.iterdir()) if d.is_dir() and not d.name.startswith('.')]
-        except Exception:
-            child_dirs = []
+        # Collect all directories recursively (including empty)
+        all_dirs = []
+        for d in src_section_dir.rglob('*'):
+            if d.is_dir() and not d.name.startswith('.'):
+                all_dirs.append(d)
+        # Ensure root section dir is included first
+        all_dirs = [src_section_dir] + all_dirs
 
-        # Section landing at /pages/<sect-slug>/index.html with grouped subsections
-        sec_index = sect_out_dir / 'index.html'
-        parts_html = []
-        if child_dirs:
-            for child_dir in child_dirs:
-                child_label = child_dir.name
-                child_slug = slugify(child_label)
-                # Ensure a subsection landing exists
-                sub_dir_out = sect_out_dir / child_slug
-                sub_dir_out.mkdir(parents=True, exist_ok=True)
-                # Pages under this child
-                child_pages = by_child.get(child_label, [])
-                if child_pages:
-                    links = '\n'.join(f'<li><a href="{ASSET_BASE}{p["path"]}">{html.escape(p["title"])}</a></li>' for p in child_pages)
-                    sub_body = f'<h2>{html.escape(child_label)}</h2>\n<ul>\n{links}\n</ul>'
-                else:
-                    sub_body = f'<h2>{html.escape(child_label)}</h2>\n<p>Coming soon.</p>'
-                # Write subsection index page
-                sub_index = sub_dir_out / 'index.html'
-                sub_html = render_page(child_label, sub_body)
-                sub_index.write_text(sub_html, encoding='utf-8')
-                # Add to section landing
-                parts_html.append(sub_body)
-        else:
-            # No subsections; list pages directly
-            links = []
-            for p in sect_entry['pages']:
-                links.append(f'<li><a href="{ASSET_BASE}{p["path"]}">{html.escape(p["title"])}</a></li>')
-            parts_html.append('<ul>' + '\n'.join(links) + '</ul>' if links else '<p>Coming soon.</p>')
-        sec_body = '\n<hr>\n'.join(parts_html) if parts_html else '<p>Coming soon.</p>'
-        sec_index.write_text(render_page(sect_label, sec_body), encoding='utf-8')
+        for d in all_dirs:
+            rel_dir = d.relative_to(BOOK)  # e.g., '1 Optimizing Theory/1.2 linear programming'
+            # Output folder path under pages/
+            out_dir = PAGES.joinpath(*[slugify(p) for p in rel_dir.parts])
+            out_dir.mkdir(parents=True, exist_ok=True)
+            # Build content listing immediate subdirectories and pages in this dir
+            # Subdirectories
+            try:
+                child_dirs = [c for c in sorted(d.iterdir()) if c.is_dir() and not c.name.startswith('.')]
+            except Exception:
+                child_dirs = []
+            sub_links = ''
+            if child_dirs:
+                items = []
+                for c in child_dirs:
+                    child_rel = c.relative_to(BOOK)
+                    child_out = '/'.join([slugify(p) for p in child_rel.parts])
+                    items.append(f'<li><a href="{ASSET_BASE}/pages/{child_out}/index.html">{html.escape(c.name)}</a></li>')
+                sub_links = '<h2>Subsections</h2>\n<ul>\n' + '\n'.join(items) + '\n</ul>'
+            # Pages in this dir (from pages_by_dir)
+            dir_key = rel_dir
+            page_links = ''
+            if dir_key in pages_by_dir:
+                items = [f'<li><a href="{ASSET_BASE}{p["path"]}">{html.escape(p["title"])}</a></li>' for p in pages_by_dir[dir_key]]
+                page_links = '<h2>Pages</h2>\n<ul>\n' + '\n'.join(items) + '\n</ul>'
+            body_parts = [part for part in [sub_links, page_links] if part]
+            sec_body = '\n<hr>\n'.join(body_parts) if body_parts else '<p>Coming soon.</p>'
+            title = rel_dir.name if rel_dir.parts else sect_label
+            (out_dir / 'index.html').write_text(render_page(title, sec_body), encoding='utf-8')
 
     # Write a small manifest for client-side use if needed
     (ROOT / 'assets').mkdir(exist_ok=True)
@@ -250,7 +249,8 @@ def main():
     PARTIALS.mkdir(parents=True, exist_ok=True)
     sidebar = ['<div class="card">', '  <nav>', f'    <a href="{ASSET_BASE}/index.html" data-match="/index.html">Home</a>', '    <hr style="border:none;border-top:1px solid var(--border);margin:8px 0;">', '    <strong style="display:block;padding:4px 10px;color:var(--muted)">Sections</strong>']
     for sect in manifest:
-        first = sect['pages'][0]['path'] if sect['pages'] else f"/pages/{sect['slug']}/index.html"
+        # Always link to section landing index
+        first = f"/pages/{sect['slug']}/index.html"
         sidebar.append(f'    <a href="{ASSET_BASE}{first}" data-match="/pages/{sect["slug"]}/">{html.escape(sect["label"])}</a>')
         # Always show subsection links (including empty) beneath each section
         src_section_dir = BOOK / sect['label']
