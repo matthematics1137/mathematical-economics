@@ -28,6 +28,14 @@
           a.classList.add('active');
         }
       });
+      // Highlight the exact page link as active
+      const cur = decodeURIComponent(location.pathname);
+      container.querySelectorAll('a[href]').forEach(a => {
+        try {
+          const hrefPath = decodeURIComponent(new URL(a.getAttribute('href'), document.baseURI).pathname);
+          if (hrefPath === cur) a.classList.add('active');
+        } catch(e) {}
+      });
     } catch (e) {}
   }
 

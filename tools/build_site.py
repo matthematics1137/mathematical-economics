@@ -226,7 +226,7 @@ def main():
     # Generate index.html dynamically with section cards
     cards = []
     for sect in manifest:
-        link = f'{ASSET_BASE}{sect["pages"][0]["path"]}' if sect['pages'] else f'{ASSET_BASE}/index.html'
+        link = f'{ASSET_BASE}{sect["pages"][0]["path"]}' if sect['pages'] else f'{ASSET_BASE}/pages/{sect["slug"]}/index.html'
         title = html.escape(sect['label'])
         cards.append(f'''    <div class="card">
       <h3>{title}</h3>
