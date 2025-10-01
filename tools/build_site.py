@@ -148,6 +148,7 @@ def main():
     PAGES.mkdir(parents=True, exist_ok=True)
 
     manifest = []
+    sidebar_data = []
     sections = build_manifest()
     for sect_label, files in sections.items():
         sect_slug = slugify(sect_label)
@@ -186,8 +187,32 @@ def main():
             print(f'Rendered {md_path} -> {out_html}')
         manifest.append(sect_entry)
 
-        # Create index pages for the entire directory tree under this section
+        # Build sidebar model for this section (children + pages)
         src_section_dir = BOOK / sect_label
+        # Map of relative dir -> pages
+        root_rel = src_section_dir.relative_to(BOOK)
+        root_pages = pages_by_dir.get(root_rel, [])
+        try:
+            child_dirs = [d for d in sorted(src_section_dir.iterdir()) if d.is_dir() and not d.name.startswith('.')]
+        except Exception:
+            child_dirs = []
+        children = []
+        for c in child_dirs:
+            child_rel = c.relative_to(BOOK)
+            child_slug = slugify(c.name)
+            children.append({
+                'label': c.name,
+                'slug': child_slug,
+                'pages': pages_by_dir.get(child_rel, [])
+            })
+        sidebar_data.append({
+            'label': sect_label,
+            'slug': sect_slug,
+            'root_pages': root_pages,
+            'children': children,
+        })
+
+        # Create index pages for the entire directory tree under this section
         # Collect all directories recursively (including empty)
         all_dirs = []
         for d in src_section_dir.rglob('*'):
@@ -248,23 +273,28 @@ def main():
     # Generate sidebar from manifest
     PARTIALS.mkdir(parents=True, exist_ok=True)
     sidebar = ['<div class="card">', '  <nav>', f'    <a href="{ASSET_BASE}/index.html" data-match="/index.html">Home</a>', '    <hr style="border:none;border-top:1px solid var(--border);margin:8px 0;">', '    <strong style="display:block;padding:4px 10px;color:var(--muted)">Sections</strong>']
-    for sect in manifest:
-        # Always link to section landing index
+    for sect in sidebar_data:
+        # Section header links to section index
         first = f"/pages/{sect['slug']}/index.html"
         sidebar.append(f'    <a href="{ASSET_BASE}{first}" data-match="/pages/{sect["slug"]}/">{html.escape(sect["label"])}</a>')
-        # Always show subsection links (including empty) beneath each section
-        src_section_dir = BOOK / sect['label']
-        try:
-            child_dirs = [d for d in sorted(src_section_dir.iterdir()) if d.is_dir() and not d.name.startswith('.')]
-        except Exception:
-            child_dirs = []
-        if child_dirs:
+        # List any pages directly under the section root
+        if sect.get('root_pages'):
             sidebar.append('    <ul style="margin:6px 0 10px 16px; padding:0; list-style: none;">')
-            for child_dir in child_dirs:
-                child_label = child_dir.name
-                child_slug = slugify(child_label)
-                child_href = f'/pages/{sect["slug"]}/{child_slug}/index.html'
-                sidebar.append(f'      <li><a href="{ASSET_BASE}{child_href}">{html.escape(child_label)}</a></li>')
+            for p in sect['root_pages']:
+                sidebar.append(f'      <li><a href="{ASSET_BASE}{p["path"]}">{html.escape(p["title"])}</a></li>')
+            sidebar.append('    </ul>')
+        # List subsections and their pages
+        if sect.get('children'):
+            sidebar.append('    <ul style="margin:6px 0 10px 16px; padding:0; list-style: none;">')
+            for child in sect['children']:
+                child_href = f'/pages/{sect["slug"]}/{child["slug"]}/index.html'
+                sidebar.append(f'      <li><a href="{ASSET_BASE}{child_href}">{html.escape(child["label"])}</a>')
+                if child.get('pages'):
+                    sidebar.append('        <ul style="margin:4px 0 6px 14px; padding:0; list-style: none;">')
+                    for p in child['pages']:
+                        sidebar.append(f'          <li><a href="{ASSET_BASE}{p["path"]}">{html.escape(p["title"])}</a></li>')
+                    sidebar.append('        </ul>')
+                sidebar.append('      </li>')
             sidebar.append('    </ul>')
     sidebar += ['  </nav>', '</div>']
     (PARTIALS / 'sidebar.html').write_text('\n'.join(sidebar), encoding='utf-8')
