@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse, pathlib, re, html, json, shutil
+from datetime import datetime, timezone
 
 def slugify(s: str) -> str:
     s = s.strip().lower()
@@ -144,6 +145,20 @@ def build(book: pathlib.Path, out_dir: pathlib.Path, assets_dir: pathlib.Path, t
 
     # Write manifest + sidebar + index
     (assets_dir / 'site.json').write_text(json.dumps(manifest, indent=2), encoding='utf-8')
+    # Build info for traceability
+    build_info = {
+        'builder': 'build-pages',
+        'version': 'v0.1.0',
+        'built_at': datetime.now(timezone.utc).isoformat(),
+        'source': str(book),
+        'output': str(out_dir),
+        'asset_base': asset_base,
+        'counts': {
+            'sections': len(manifest),
+            'pages': sum(len(s['pages']) for s in manifest),
+        },
+    }
+    (assets_dir / 'build-info.json').write_text(json.dumps(build_info, indent=2), encoding='utf-8')
     sidebar = ['<div class="card">', '  <nav>', f'    <a href="{asset_base}/index.html" data-match="/index.html">Home</a>', '    <hr style="border:none;border-top:1px solid var(--border);margin:8px 0;">', '    <strong style="display:block;padding:4px 10px;color:var(--muted)">Sections</strong>']
     for sect in manifest:
       first = sect['pages'][0]['path'] if sect['pages'] else f"/pages/{sect['slug']}/"

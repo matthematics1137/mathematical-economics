@@ -1,0 +1,12 @@
+{
+  "builder": "in-repo-builder",
+  "version": "local",
+  "built_at": "2025-10-01T08:35:40.924518+00:00",
+  "source": "/home/somebody/mathematical-economics/mathematical-economics/mathematical-economics-book",
+  "output": "/home/somebody/mathematical-economics/pages",
+  "asset_base": "/mathematical-economics",
+  "counts": {
+    "sections": 4,
+    "pages": 3
+  }
+}

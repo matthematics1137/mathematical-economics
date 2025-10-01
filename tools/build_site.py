@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import pathlib, re, html, json, shutil
+from datetime import datetime, timezone
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 BOOK = ROOT / 'mathematical-economics' / 'mathematical-economics-book'
@@ -8,6 +9,8 @@ PARTIALS = ROOT / 'assets' / 'partials'
 TEMPLATE = ROOT / 'templates' / 'section.html'
 
 ASSET_BASE = '/mathematical-economics'
+BUILDER_NAME = 'in-repo-builder'
+BUILDER_VERSION = 'local'
 
 def slugify(s: str) -> str:
     s = s.strip().lower()
@@ -190,6 +193,21 @@ def main():
     # Write a small manifest for client-side use if needed
     (ROOT / 'assets').mkdir(exist_ok=True)
     (ROOT / 'assets' / 'site.json').write_text(json.dumps(manifest, indent=2), encoding='utf-8')
+
+    # Build info for traceability
+    build_info = {
+        'builder': BUILDER_NAME,
+        'version': BUILDER_VERSION,
+        'built_at': datetime.now(timezone.utc).isoformat(),
+        'source': str(BOOK),
+        'output': str(PAGES),
+        'asset_base': ASSET_BASE,
+        'counts': {
+            'sections': len(manifest),
+            'pages': sum(len(s['pages']) for s in manifest),
+        },
+    }
+    (ROOT / 'assets' / 'build-info.json').write_text(json.dumps(build_info, indent=2), encoding='utf-8')
 
     # Generate sidebar from manifest
     PARTIALS.mkdir(parents=True, exist_ok=True)
