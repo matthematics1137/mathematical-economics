@@ -33,7 +33,38 @@
     <aside id="sidebar" class="sidebar"></aside>
     <main class="content md-content">
       <h1>1.1.5 conditions for global optimum</h1>
-      
+      <h1>conditions which guarantee a local optimum is also global</h1>
+<ul>
+<li>in general there is no property of a local optimum that will make it also global, but there are <em>properties of the structure of the problem itself</em> which guarantee that <em>every local optimum is also global</em></li>
+</ul>
+<ul>
+<li>for a problem concerned with optimizing a <em>continuous function</em> $f(x)$ over a <em>closed feasible set</em> $k$:</li>
+<ul>
+<ul>
+<li><em>every local optimum is also a global optimum if:</em></li>
+<ul>
+<ul>
+<li><em>f is concave for maximum, or convex for minimum</em></li>
+<li>$k$ <em>is a convex set</em></li>
+</ul>
+</ul>
+</ul>
+</ul>
+<li>if $k$ is a <em>convex set</em> it means (effectively) we can always draw a straight path in the feasible set from one point to another (by convexity, for any line segment drawn between two points, all points on the line are also in the set)</li>
+<li>for the <em>continuous function</em> $f(x)$ if we search for a maximum we have <em>concavity</em> (<em>no higher point</em>) and for <em>convexity</em> (<em>no lower point</em>)</li>
+<ul>
+<ul>
+<li><em>convex $k$, convex</em> $f$ - any local minimum is global</li>
+<li><em>convex</em> $k$, <em>concave</em> $f$ - any local maximum is global</li>
+<li>a concave set k would break this guarantee because it means <strong>the geometry of the set blocks the straight-line argument:</strong></li>
+<ul>
+<ul>
+<li>disconnected basins</li>
+</ul>
+</ul>
+</ul>
+</ul>
+</ul>
       <div id="section-nav" style="margin-top: 1rem;"></div>
     </main>
   </div>

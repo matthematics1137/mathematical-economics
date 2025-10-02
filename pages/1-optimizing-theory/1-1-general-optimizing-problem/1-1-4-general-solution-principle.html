@@ -33,7 +33,75 @@
     <aside id="sidebar" class="sidebar"></aside>
     <main class="content md-content">
       <h1>1.1.4 general solution principle</h1>
-      
+      <ul>
+<li>the solution $max [or \ min]f(x)$ for some $x$ over some <em>closed feasible set</em> $k$ will, if it exists, be some point $x^*$ which is:</li>
+<ul>
+<ul>
+<li>a <em>critical point</em> $f(x)$ <strong>OR</strong></li>
+<li>a <em>boundary point</em> of $k$ <strong>OR BOTH</strong></li>
+</ul>
+</ul>
+<li><strong>closed feasible set</strong> - the optimal value <em>if it exists</em> necessarily must be in the acceptable range of values where its boundary is also included</li>
+<li><strong>critical point</strong> - a point where the <em>gradient</em> of the objective vanishes:</li>
+<ul>
+<ul>
+<li>$\nabla f(x^*) = 0$, where $\nabla f(x)$ (the gradient) is the <em>vector</em> of all <em>partial derivatives</em></li>
+<ul>
+<ul>
+<li>each partial derivative measures the slope of the objective function in the direction of one variable (holding the others fixed) </li>
+</ul>
+</ul>
+</ul>
+</ul>
+<li><strong>boundary point</strong> - a point where the neighborhood includes some points <em>not</em> in the feasible set </li>
+<ul>
+<ul>
+<li>so what we are saying is:</li>
+<ul>
+<ul>
+<li>the <em>optimal solution</em>, if it exists, exists within the set of valid points which includes its own boundary, where the <em>slope of all its partial derivatives are equal to zero</em>, or, it exists <em>on the boundary</em></li>
+</ul>
+</ul>
+</ul>
+</ul>
+</ul>
+<ul>
+<li>the optimal point may either be an <em>interior point</em> or a <em>boundary point</em> (neighbors are inside or it exists on boundary)</li>
+<ul>
+<ul>
+<li>for interior points:</li>
+<ul>
+<ul>
+<li>**it <em>must</em> be true that the optimal point is also optimal relative to its neighbors**</li>
+<ul>
+<ul>
+<li><em>a critical point inside the feasible set if always a candidate for local max/min, but we have to check this to determine it is a global optimum</em></li>
+</ul>
+</ul>
+</ul>
+</ul>
+</ul>
+</ul>
+<li>this is slightly tautological (the only two kinds of points in a closed set are interior or boundary) </li>
+<ul>
+<ul>
+<li>the purpose has more to do with defining what a critical point is, that it is optimal AND interior (otherwise of course it is on boundary)</li>
+<ul>
+<ul>
+<li><strong>the significance is that from the interior the gradient condition is necessary, on the boundary we use different machinery</strong> ⭐ (not covered yet)</li>
+</ul>
+</ul>
+</ul>
+</ul>
+</ul>
+<ul>
+<li>we can compute an optimal point by computing gradients of values of interior points then all boundary points, but this generally too great a task, so we use <strong>ad hoc</strong></li>
+<ul>
+<ul>
+<li>⭐ if $f(x)$ is not differentiable everywhere, the points at which it is not differentiable will need to be examined as well </li>
+</ul>
+</ul>
+</ul>
       <div id="section-nav" style="margin-top: 1rem;"></div>
     </main>
   </div>
